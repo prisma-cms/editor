@@ -2,7 +2,7 @@ export default {
   "blocks": [
     {
       "key": "bhhcu",
-      "text": "Test text div ",
+      "text": "Text from content state",
       "type": "unstyled",
       "depth": 0,
       "inlineStyleRanges": [],
@@ -10,17 +10,8 @@ export default {
       "data": {}
     },
     {
-      "key": "6cgsj",
-      "text": "Test text paragraph",
-      "type": "unstyled",
-      "depth": 0,
-      "inlineStyleRanges": [],
-      "entityRanges": [],
-      "data": {}
-    },
-    {
-      "key": "1lavr",
-      "text": "Test text raw row\nTest text raw row2",
+      "key": "827mg",
+      "text": "Test content",
       "type": "unstyled",
       "depth": 0,
       "inlineStyleRanges": [],

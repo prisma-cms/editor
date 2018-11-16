@@ -19,6 +19,7 @@ import contentStateData from "./mock/data/contentState";
 
 import prism from 'prismjs';
 import 'prismjs/components/prism-json.js';
+import { Button } from 'material-ui';
 
 
 class TestApp extends Component {
@@ -103,6 +104,22 @@ class TestApp extends Component {
         value={stateValue}
         {...other}
       />
+
+      <div
+        style={{
+          marginTop: 10,
+        }}
+      >
+        <Button
+          onClick={() => {
+            this.setState({
+              value,
+            });
+          }}
+        >
+          Restore value
+        </Button>
+      </div>
 
       <div
         style={{
@@ -216,6 +233,11 @@ class DevRenderer extends PrismaCmsRenderer {
 
     return routes;
 
+  }
+
+
+  renderMenu() {
+    return null;
   }
 
 

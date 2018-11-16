@@ -79,7 +79,6 @@ class PrismaEditor extends Component {
       if (typeof value === "object") {
         const contentState = convertFromRaw(value);
         editorState = EditorState.createWithContent(contentState, compositeDecorator);
-        editorState = EditorState.moveSelectionToEnd(editorState);
       }
       else if (typeof value === "string") {
         const blocks = convertFromHTML(value);
@@ -87,7 +86,6 @@ class PrismaEditor extends Component {
 
         const contentState = ContentState.createFromBlockArray(blocks);
         editorState = EditorState.createWithContent(contentState, compositeDecorator);
-        editorState = EditorState.moveSelectionToEnd(editorState);
 
         console.log("initState string editorState", editorState);
 
@@ -128,8 +126,37 @@ class PrismaEditor extends Component {
       // editorState = EditorState.createEmpty(compositeDecorator);
       editorState = EditorState.createEmpty(compositeDecorator);
     }
+    else {
+      // editorState = EditorState.moveSelectionToEnd(editorState);
+    }
 
     // this.compositeDecorator = compositeDecorator;
+
+    let selectionState = editorState.getSelection();
+
+    console.log("selectionState", selectionState);
+
+    var anchorKey = selectionState.getAnchorKey();
+
+    console.log("selectionState anchorKey", anchorKey);
+
+    var start = selectionState.getStartOffset();
+    var end = selectionState.getEndOffset();
+
+    console.log("selectionState start end", start, end);
+
+    var currentContent = editorState.getCurrentContent();
+    var currentContentBlock = currentContent.getBlockForKey(anchorKey);
+
+    var selectedText = currentContentBlock.getText().slice(start, end);
+
+    console.log("selectionState selectedText", selectedText);
+
+    const currentBlockKey = editorState.getSelection().getStartKey()
+    const currentBlockIndex = editorState.getCurrentContent().getBlockMap()
+      .keySeq().findIndex(k => k === currentBlockKey)
+
+    console.log("selectionState currentBlockIndex", currentBlockIndex);
 
     return {
       editorState,
@@ -151,6 +178,35 @@ class PrismaEditor extends Component {
   }
 
 
+  componentDidUpdate(prevProps, prevState) {
+
+    const {
+      value: prevValue,
+    } = prevProps;
+
+    const {
+      value,
+    } = this.props;
+
+    const {
+      rawContent,
+    } = this.state;
+
+    // console.log("componentDidUpdate", value === prevValue);
+    // console.log("componentDidUpdate rawContent", value === rawContent);
+
+    if ((value !== undefined && rawContent !== undefined) && value !== rawContent) {
+
+      if (value !== prevValue) {
+        const {
+          editorState,
+        } = this.initState(value);
+
+        this.onChange(editorState);
+      }
+
+    }
+  }
 
 
   // onChange = (editorState) => {
@@ -196,18 +252,73 @@ class PrismaEditor extends Component {
 
     this.setState({
       editorState,
-      rawContent,
     }, () => {
 
       const {
         onChange,
       } = this.props;
 
+      Object.assign(this.state, {
+        rawContent,
+      });
+
       onChange && onChange(rawContent, editorState);
 
     });
 
   };
+
+  // onChange = (editorState) => {
+
+  //   console.log("PrismaEditor onChange editorState", editorState);
+
+  //   const currentContent = editorState.getCurrentContent();
+
+  //   console.log("PrismaEditor onChange editorState.getCurrentContent()", currentContent);
+
+  //   const rawContent = convertToRaw(currentContent);
+
+  //   console.log("PrismaEditor onChange editorState convertToRaw", rawContent);
+
+
+
+  //   const currentBlockKey = editorState.getSelection().getStartKey()
+  //   const currentBlockIndex = editorState.getCurrentContent().getBlockMap()
+  //     .keySeq().findIndex(k => k === currentBlockKey)
+
+  //   console.log("PrismaEditor onChange currentBlockIndex", currentBlockIndex);
+
+
+
+  //   let selectionState = editorState.getSelection();
+
+  //   console.log("PrismaEditor onChange", selectionState);
+
+  //   var anchorKey = selectionState.getAnchorKey();
+
+  //   console.log("PrismaEditor onChange anchorKey", anchorKey);
+
+  //   var start = selectionState.getStartOffset();
+  //   var end = selectionState.getEndOffset();
+
+  //   console.log("PrismaEditor onChange start end", start, end);
+
+  //   var currentContentBlock = currentContent.getBlockForKey(anchorKey);
+
+  //   var selectedText = currentContentBlock.getText().slice(start, end);
+
+  //   console.log("PrismaEditor onChange selectedText", selectedText);
+
+
+  //   console.log("PrismaEditor onChange currentBlockIndex", currentBlockIndex);
+
+  //   const {
+  //     onChange,
+  //   } = this.props;
+
+  //   onChange && onChange(rawContent, editorState);
+
+  // };
 
 
 
@@ -229,6 +340,17 @@ class PrismaEditor extends Component {
     const {
       editorState,
     } = this.state;
+
+
+    // const {
+    //   value,
+    // } = this.props;
+
+    // const {
+    //   editorState,
+    //   rawContent,
+    // } = this.initState(value);
+
 
     return (
       <Editor
