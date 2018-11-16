@@ -1,0 +1,4 @@
+.DraftEditor-root > .DraftEditor-editorContainer > .public-DraftEditor-content > div[data-contents="true"] {
+  border: 1px solid #ddd;
+  padding: 3px;
+}
