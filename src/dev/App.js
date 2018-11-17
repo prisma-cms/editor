@@ -20,12 +20,14 @@ import contentStateData from "./mock/data/contentState";
 import prism from 'prismjs';
 import 'prismjs/components/prism-json.js';
 import { Button } from 'material-ui';
+import { withStyles } from 'material-ui';
 
 
 class TestApp extends Component {
 
   static defaultProps = {
     value: "",
+    readOnly: false,
   }
 
 
@@ -35,10 +37,12 @@ class TestApp extends Component {
 
     const {
       value,
+      readOnly,
     } = props;
 
     this.state = {
       value,
+      readOnly,
     }
 
   }
@@ -57,12 +61,17 @@ class TestApp extends Component {
     const {
       value,
       children,
+      history,
+      location,
+      match,
+      classes,
       ...other
     } = this.props;
 
     const {
       value: stateValue,
       newState,
+      readOnly,
     } = this.state;
 
     let stateOutput;
@@ -83,7 +92,9 @@ class TestApp extends Component {
 
     }
 
-    return <div>
+    return <div
+      className={classes.root}
+    >
 
       <link
         rel="stylesheet"
@@ -91,18 +102,37 @@ class TestApp extends Component {
         href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/themes/prism.css"
       />
 
-      <App
-        onChange={newState => {
+      <div
+        style={{
+          marginTop: 10,
+          marginBottom: 20,
+        }}
+      >
 
-          console.log("Test Editor onChange", newState);
+        <Button
+          onClick={() => this.setState({
+            readOnly: !readOnly,
+          })}
+          variant="raised"
+        >
+          {readOnly ? "Edit mode" : "Read only mode"}
+        </Button>
+
+
+      </div>
+
+      <App
+        {...other}
+        onChange={newState => {
 
           this.setState({
             value: newState,
             newState,
           });
+
         }}
         value={stateValue}
-        {...other}
+        readOnly={readOnly}
       />
 
       <div
@@ -110,15 +140,23 @@ class TestApp extends Component {
           marginTop: 10,
         }}
       >
-        <Button
-          onClick={() => {
-            this.setState({
-              value,
-            });
-          }}
-        >
-          Restore value
-        </Button>
+
+        {!readOnly
+          ?
+          <Button
+            onClick={() => {
+              this.setState({
+                value,
+              });
+            }}
+          // disabled={value === stateValue}
+          >
+            Reset value
+          </Button>
+          :
+          null
+        }
+
       </div>
 
       <div
@@ -134,6 +172,13 @@ class TestApp extends Component {
           marginTop: 30,
         }}
       >
+
+        <Typography
+          variant="title"
+        >
+          Editor state:
+        </Typography>
+
         <div
           style={{
             whiteSpace: "pre-wrap",
@@ -149,6 +194,14 @@ class TestApp extends Component {
   }
 
 }
+
+
+const TestRenderer = withStyles({
+  root: {
+    fontSize: 16,
+    fontFamily: "serif",
+  },
+})(TestApp)
 
 
 class DevRenderer extends PrismaCmsRenderer {
@@ -171,20 +224,20 @@ class DevRenderer extends PrismaCmsRenderer {
       {
         exact: true,
         path: "/",
-        component: TestApp,
+        component: TestRenderer,
       },
       {
         exact: true,
         path: "/text-data",
         render: props => {
 
-          return <TestApp
+          return <TestRenderer
             value={textData}
             {...props}
           >
             <div>
               <Typography
-                variant="subheading"
+                variant="title"
               >
                 Raw text input value:
               </Typography>
@@ -196,7 +249,7 @@ class DevRenderer extends PrismaCmsRenderer {
                 {textData}
               </div>
             </div>
-          </TestApp>
+          </TestRenderer>
         }
       },
       {
@@ -204,7 +257,7 @@ class DevRenderer extends PrismaCmsRenderer {
         path: "/content-state",
         render: props => {
 
-          return <TestApp
+          return <TestRenderer
             value={contentStateData}
             {...props}
           >
@@ -222,7 +275,7 @@ class DevRenderer extends PrismaCmsRenderer {
                 {textData}
               </div>
             </div> */}
-          </TestApp>
+          </TestRenderer>
         }
       },
       {

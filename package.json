@@ -13,11 +13,12 @@
   },
   "dependencies": {
     "draft-js": "^0.10.5",
-    "draftjs-utils": "^0.9.4",
+    "material-ui": "1.0.0-beta.43",
+    "material-ui-icons": "^1.0.0-beta.17",
+    "prismjs": "1.6.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
-    "react-router-dom": "^4.3.1",
-    "prismjs": "1.6.0"
+    "react-router-dom": "^4.3.1"
   },
   "devDependencies": {
     "@prisma-cms/front": "latest",
