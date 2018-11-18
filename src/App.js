@@ -44,6 +44,10 @@ import LinkControl, {
   decorator as linkDecorator,
 } from "./controls/Link";
 
+import TextBlock from './controls/Code/';
+
+import { insertTextBlock } from './modifiers/insertTextBlock';
+import { removeTextBlock } from './modifiers/removeTextBlock';
 
 const {
   hasCommandModifier
@@ -65,8 +69,17 @@ export const styles = {
               padding: 3,
             }
           }
+        },
+      },
+    },
+    "& .DraftEditor-root": {
+      "& > .DraftEditor-editorContainer": {
+        "& > .public-DraftEditor-content": {
+          "& figure": {
+            margin: "15px auto",
+          },
         }
-      }
+      },
     },
   },
   menu: {
@@ -500,49 +513,58 @@ export class PrismaEditor extends Component {
     //   },
     // };
 
-    return null;
+    // return null;
 
-    // if (block.getType() === 'atomic') {
+    if (block.getType() === 'atomic') {
 
-    //   if (this.props.fullView !== true && this.state.inEditMode !== true) {
+      return {
+        component: TextBlock,
+        editable: false,
+        // editable: true,
+        props: {
+          // allow_edit: this.state.inEditMode,
+          allow_edit: !this.isReadOnly(),
+          // fullView: this.props.fullView === true || this.state.inEditMode === true,
+          onStartEdit: this.onEditStart,
+          // onStartEdit: () => {
 
-    //     return {
-    //       component: Expander,
-    //       props: {
-    //         expand: setFullView,
-    //       },
-    //     };
-    //   }
+          // },
+          // onStartEdit: (blockKey) => {
+          //   // alert('onStartEdit');
+          //   var { liveTeXEdits } = this.state;
+          //   this.setState({ liveTeXEdits: liveTeXEdits.set(blockKey, true) });
+          // },
+          onFinishEdit: (blockKey, newContentState) => {
 
-    //   return {
-    //     component: TextBlock,
-    //     editable: false,
-    //     props: {
-    //       allow_edit: this.state.inEditMode,
-    //       _insertText: this._insertText,
-    //       fullView: this.props.fullView === true || this.state.inEditMode === true,
-    //       onStartEdit: (blockKey) => {
-    //         // alert('onStartEdit');
-    //         var { liveTeXEdits } = this.state;
-    //         this.setState({ liveTeXEdits: liveTeXEdits.set(blockKey, true) });
-    //       },
-    //       onFinishEdit: (blockKey, newContentState) => {
-    //         // alert('onFinishEdit');
-    //         var { liveTeXEdits } = this.state;
+            const {
+              editorState,
+            } = this.state;
 
-    //         let editorState = EditorState.createWithContent(newContentState);
+            // let newEditorState = EditorState.push(editorState, newContentState, 'change-block-data');
+            let newEditorState = EditorState.push(editorState, newContentState, 'change-block-type');
 
-    //         EditorState.set(editorState, { decorator: decorator });
+            this.onChange(newEditorState);
 
-    //         this.setState({
-    //           liveTeXEdits: liveTeXEdits.remove(blockKey),
-    //           editorState: editorState,
-    //         });
-    //       },
-    //       onRemove: (blockKey) => this._removeTeX(blockKey),
-    //     },
-    //   };
-    // }
+            this.onEditEnd();
+
+            // alert('onFinishEdit');
+            // var { liveTeXEdits } = this.state;
+
+            // let editorState = EditorState.createWithContent(newContentState);
+
+            // EditorState.set(editorState, { decorator: decorator });
+
+            // this.setState({
+            //   liveTeXEdits: liveTeXEdits.remove(blockKey),
+            //   editorState: editorState,
+            // });
+          },
+          _insertText: this._insertText,
+          onRemove: (blockKey) => this._removeTeX(blockKey),
+        },
+      };
+
+    }
 
     // else if (block.getType() === 'image') {
 
@@ -566,7 +588,8 @@ export class PrismaEditor extends Component {
 
 
 
-    // return null;
+    return null;
+
 
     return {
       component: props => {
@@ -692,6 +715,41 @@ export class PrismaEditor extends Component {
       },
     };
   }
+
+
+  _insertText = () => {
+    this.setState({
+      liveTeXEdits: Map(),
+      editorState: insertTextBlock(this.state.editorState),
+    });
+  };
+
+  _removeTeX = (blockKey) => {
+
+    console.log("_removeTeX blockKey", blockKey);
+
+    const {
+      editorState,
+    } = this.state;
+
+    const contentState = editorState.getCurrentContent()
+    const newBlockMap = contentState.blockMap.delete(blockKey)  // this is the important one that actually deletes a block
+    const newContentState = contentState.set('blockMap', newBlockMap)
+    const newEditorState = EditorState.push(editorState, newContentState, 'remove-block')
+
+    this.onChange(newEditorState);
+
+    // return newEditorState
+
+    return;
+    // var entityKey = this.props.block.getEntityAt(0);
+
+    // var { editorState, liveTeXEdits } = this.state;
+    // this.setState({
+    //   // liveTeXEdits: liveTeXEdits.remove(blockKey),
+    //   editorState: removeTextBlock(editorState, blockKey),
+    // });
+  };
 
 
   onEditStart = () => {

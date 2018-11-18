@@ -1,0 +1,71 @@
+
+.Editor-text {
+  background-color: transparent!important;
+  margin: 0;
+  padding: 20px 0;
+  transition: background-color 0.2s fade-in-out;
+  //user-select: none;
+  //user-select: none;
+
+  .text-content{
+
+    cursor: default;
+
+    .edit&{
+      cursor: pointer;
+    }
+
+    .Editor-activeText&{
+
+      cursor: default;
+    }
+  }
+
+  .Editor-panel {
+
+    .Editor-textValue {
+      border: 1px solid #e1e1e1;
+      display: block;
+      font-family: 'Inconsolata', 'Menlo', monospace;
+      font-size: 14px;
+      min-height: 300px;
+      margin: 20px 0;
+      outline: none;
+      padding: 14px;
+      // resize: none;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    .Editor-buttons {
+      text-align: center;
+    }
+    
+    .Editor-saveButton,
+    .Editor-removeButton {
+      background-color: #fff;
+      border: 1px solid #0a0;
+      cursor: pointer;
+      font-family: 'Helvetica', 'Arial', sans-serif;
+      font-size: 16px;
+      font-weight: 200;
+      margin: 10px auto;
+      padding: 6px;
+      border-radius: 3px;
+      width: 100px;
+    }
+    
+    .Editor-removeButton {
+      border-color: #aaa;
+      color: #999;
+      margin-left: 8px;
+    }
+    
+    .Editor-invalidButton {
+      background-color: #eee;
+      border-color: #a00;
+      color: #666;
+    }
+
+  }
+} 
