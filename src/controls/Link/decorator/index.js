@@ -10,6 +10,10 @@ import IconButton from "material-ui/IconButton";
 import DoneIcon from "material-ui-icons/Done";
 
 import Decorator from "decorator";
+import { TextField } from 'material-ui';
+
+import URI from "urijs";
+import { Typography } from 'material-ui';
 
 /**
  * В версии 0.11-alpha порядок методов отличается
@@ -41,7 +45,7 @@ export class LinkDecorator extends Decorator {
 
   onUrlChange = event => {
 
-    const {
+    let {
       value,
     } = event.target;
 
@@ -79,89 +83,125 @@ export class LinkDecorator extends Decorator {
 
     const {
       url,
-      targetOption,
     } = contentState.getEntity(entityKey).getData();
 
     // return <span>
     //   rgreg  rg gerg erg herg rger g <input />
     // </span>
 
+    let helperText = "Укажите адрес ссылки";
+
+    let Element = "a";
+    let to;
+
+    let uri;
+
+    let target;
+
+    if (url) {
+
+      uri = new URI(url);
+
+      // console.log("uri", uri);
+
+      /**
+       * Если это текущий домен, то делаем ссылку локальной
+       */
+      if (uri.origin() === global.location.origin) {
+        uri.origin("")
+      }
 
 
+      if (!uri.scheme()) {
 
+        Element = Link;
+        to = uri.toString();
+
+
+        if (!to.startsWith("/")) {
+          to = `/${to}`;
+        }
+
+        helperText = <Typography
+          color="secondary"
+          component="span"
+        >
+          Ссылка на локальную страницу
+        </Typography>;
+
+      }
+      else {
+
+        target = "_blank";
+
+        helperText = <Typography
+          color="primary"
+          component="span"
+        >
+          Ссылка на внешний источник
+        </Typography>;
+
+      }
+
+    }
 
 
     return (
       <Fragment>
-        <a
+        <Element
           href={url || ""}
-          target={targetOption}
+          to={to}
+          target={target}
           // onMouseEnter={this.toggleShowPopOver}
           // onMouseLeave={this.toggleShowPopOver}
           onMouseDown={this.showEditor}
         >
           {children}
 
-        </a>
-        {!readOnly && showEditor
+        </Element>
+        {!readOnly && (showEditor || !url)
           ?
-          <Grid
-            container
-            alignItems="center"
+          <div
+            style={{
+              marginBottom: 20,
+            }}
           >
             <Grid
-              item
-              xs
+              container
+              alignItems="center"
             >
-              <input
-                type="text"
-                // value={url || ""}
-                value={url || ""}
-                onChange={this.onUrlChange}
-                onFocus={this.startEdit}
-                onBlur={this.endEdit}
-                style={{
-                  width: "100%",
-                }}
-              // onClick={event => {
-
-              //   event.preventDefault();
-              //   event.stopPropagation();
-              //   return 'handled';
-              // }}
-              // onMouseDown={event => {
-
-              //   // event.preventDefault();
-              //   // event.stopPropagation();
-
-              //   // event.target.focus();
-
-              //   this.startEdit();
-
-              //   return 'handled';
-              // }}
-              // onMouseEnter={event => {
-
-              //   event.preventDefault();
-              //   event.stopPropagation();
-              //   return 'handled';
-              // }}
-              />
-            </Grid>
-            <Grid
-              item
-            >
-              <IconButton
-                onClick={this.hideEditor}
+              <Grid
+                item
+                xs
               >
-                <DoneIcon
-                  style={{
-                    color: "green",
-                  }}
+                <TextField
+                  onMouseDown={this.showEditor}
+                  value={url || ""}
+                  onChange={this.onUrlChange}
+                  onFocus={this.startEdit}
+                  onBlur={this.endEdit}
+                  fullWidth
+                  label="Адрес ссылки"
+                  placeholder="https://..."
+                  helperText={helperText}
+                  error={!url}
                 />
-              </IconButton>
+              </Grid>
+              <Grid
+                item
+              >
+                <IconButton
+                  onClick={this.hideEditor}
+                >
+                  <DoneIcon
+                    style={{
+                      color: "green",
+                    }}
+                  />
+                </IconButton>
+              </Grid>
             </Grid>
-          </Grid>
+          </div>
           :
           null
         }

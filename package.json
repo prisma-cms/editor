@@ -1,5 +1,5 @@
 {
-  "name": "@prisma-cms/component-boilerplate",
+  "name": "@prisma-cms/editor",
   "version": "1.0.6",
   "private": false,
   "main": "lib/App.js",
@@ -19,7 +19,8 @@
     "prismjs": "1.6.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
-    "react-router-dom": "^4.3.1"
+    "react-router-dom": "^4.3.1",
+    "urijs": "^1.19.1"
   },
   "devDependencies": {
     "@prisma-cms/front": "latest",
@@ -47,7 +48,9 @@
   "keywords": [
     "prisma-cms",
     "front",
-    "components"
+    "components",
+    "draft-js",
+    "wysiwyg"
   ],
   "author": "Fi1osof",
   "license": "ISC",
