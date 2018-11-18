@@ -14,10 +14,10 @@ import LinkIcon from "material-ui-icons/Link";
 import ToggleBlockType from "../ToggleBlockType";
 
 import decorator from "./decorator";
-export {decorator};
+export { decorator };
 
 
-export default class LinkBlockType extends ToggleBlockType {
+export default class LinkControl extends ToggleBlockType {
 
   static propTypes = {
     ...ToggleBlockType.propTypes,
@@ -43,7 +43,15 @@ export default class LinkBlockType extends ToggleBlockType {
     // modalHandler.registerCallBack(this.expandCollapse);
   }
 
-  addLink = (linkTitle, linkTarget, linkTargetOption) => {
+
+  // addLink = (linkTitle, linkUrl, linkUrlOption) => {
+  addLink = () => {
+
+    let linkTitle,
+      linkUrl,
+      linkTarget
+      ;
+
     const {
       editorState,
       onChange,
@@ -52,6 +60,17 @@ export default class LinkBlockType extends ToggleBlockType {
     const currentEntity = this.getCurrentEntity();
 
     console.log("currentEntity", currentEntity);
+
+    const selectionText = this.getSelectionText(editorState);
+
+    if (!selectionText) {
+      return;
+    }
+    else {
+      linkTitle = selectionText;
+    }
+
+    // console.log("selectionText", selectionText);
 
     // return;
 
@@ -68,7 +87,10 @@ export default class LinkBlockType extends ToggleBlockType {
     }
     const entityKey = editorState
       .getCurrentContent()
-      .createEntity('LINK', 'MUTABLE', { url: linkTarget, targetOption: linkTargetOption })
+      .createEntity('LINK', 'MUTABLE', {
+        url: linkUrl,
+        target: linkTarget,
+      })
       .getLastCreatedEntityKey();
 
     console.log("entityKey", entityKey);
@@ -85,9 +107,9 @@ export default class LinkBlockType extends ToggleBlockType {
     console.log("entityKey contentState", contentState);
 
     // console.log("entityKey contentState.getCurrentContent", contentState.getCurrentContent());
-    
+
     // return;
-    
+
     /**
      * В версии 0.11-alpha здесь ломается. 
      * https://draftjs.org/docs/v0-10-api-migration.html#content
@@ -99,21 +121,25 @@ export default class LinkBlockType extends ToggleBlockType {
     // return;
 
     // insert a blank space after link
-    selection = newEditorState.getSelection().merge({
-      anchorOffset: selection.get('anchorOffset') + linkTitle.length,
-      focusOffset: selection.get('anchorOffset') + linkTitle.length,
-    });
-    newEditorState = EditorState.acceptSelection(newEditorState, selection);
-    contentState = Modifier.insertText(
-      newEditorState.getCurrentContent(),
-      selection,
-      ' ',
-      newEditorState.getCurrentInlineStyle(),
-      undefined,
-    );
+    // selection = newEditorState.getSelection()
+    // selection = newEditorState.getSelection().merge({
+    //   anchorOffset: selection.get('anchorOffset') + linkTitle.length,
+    //   focusOffset: selection.get('anchorOffset') + linkTitle.length,
+    // });
+    // newEditorState = EditorState.acceptSelection(newEditorState, selection);
+
+    // contentState = Modifier.insertText(
+    //   newEditorState.getCurrentContent(),
+    //   selection,
+    //   ' ',
+    //   newEditorState.getCurrentInlineStyle(),
+    //   undefined,
+    // );
+
     onChange(EditorState.push(newEditorState, contentState, 'insert-characters'));
     // this.doCollapse();
   };
+
 
   toggleBlockType = () => {
 
@@ -123,7 +149,7 @@ export default class LinkBlockType extends ToggleBlockType {
       blockType,
     } = this.props;
 
-    this.addLink("test link", "https://modxclub.ru")
+    // this.addLink("test link", "https://modxclub.ru")
 
     // const newState = RichUtils.toggleBlockType(
     //   editorState,
@@ -133,8 +159,47 @@ export default class LinkBlockType extends ToggleBlockType {
     // if (newState) {
     //   onChange(newState);
     // }
+
+    const action = this.getCurrentAction();
+
+    if (action) {
+      return action();
+    }
   };
 
+
+  getCurrentAction() {
+
+    let action;
+
+    const isSelected = this.isTextSelected();
+
+    if (isSelected) {
+      action = this.addLink;
+    }
+
+    return action;
+  }
+
+
+  isDisabled() {
+
+    const {
+      disabled,
+      editorState,
+    } = this.props;
+
+
+    const action = this.getCurrentAction();
+
+    console.log("Link control action", action === this.addLink);
+
+    return disabled || !action;
+  }
+
+  componentWillReceiveProps(nextProps, nextState) {
+    console.log("Link control componentWillReceiveProps", nextProps);
+  }
 
   // render() {
 

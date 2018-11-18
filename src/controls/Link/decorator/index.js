@@ -86,7 +86,7 @@ export class LinkDecorator extends Decorator {
     //   rgreg  rg gerg erg herg rger g <input />
     // </span>
 
-    // console.log("Link decorator props", this.props);
+    console.log("Link decorator props", this.props);
 
     // console.log("Link decorator readOnly", readOnly);
     // console.log("Link decorator editing", editing);

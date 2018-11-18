@@ -349,7 +349,7 @@ export class PrismaEditor extends Component {
 
     const rawContent = convertToRaw(currentContent);
 
-    // console.log("PrismaEditor onChange editorState convertToRaw", rawContent);
+    // console.log("PrismaEditoronChange editorState", editorState === this.state.editorState);
 
     this.setState({
       editorState,
@@ -774,11 +774,11 @@ export class PrismaEditor extends Component {
 
     // console.log("inEditBlocksCount", inEditBlocksCount);
 
-    console.log("editorState", editorState);
+    console.log("editorState toJS()", editorState.toJS());
 
     const selectionState = editorState.getSelection();
 
-    const textSelected = selectionState && (selectionState.getEndOffset() - selectionState.getStartOffset() !== 0);
+    // const textSelected = selectionState && (selectionState.getEndOffset() - selectionState.getStartOffset() !== 0);
 
 
     return (
@@ -870,7 +870,7 @@ export class PrismaEditor extends Component {
                   className={classes.iconButton}
                   editorState={editorState}
                   onChange={this.onChange}
-                  disabled={!textSelected}
+                // disabled={!textSelected}
                 />
               </Grid>
 
@@ -907,6 +907,13 @@ export class PrismaEditor extends Component {
           // }}
           {...other}
         />
+
+        <div>
+          getStartOffset: {selectionState.getStartOffset()}
+        </div>
+        <div>
+          getEndOffset: {selectionState.getEndOffset()}
+        </div>
       </div>
     );
   }

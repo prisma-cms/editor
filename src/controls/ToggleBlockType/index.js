@@ -53,7 +53,7 @@ export default class ToggleBlockType extends Component {
 
     // console.log("getSelectionEntity block", block);
     // console.log("getSelectionEntity block start end", start, end);
-    
+
     for (let i = start; i < end; i += 1) {
 
       // console.log("getSelectionEntity block loop", i);
@@ -128,21 +128,85 @@ export default class ToggleBlockType extends Component {
   }
 
 
+  renderIcon() {
+
+    const {
+      icon: Icon,
+    } = this.props;
+
+    return <Icon />
+
+  }
+
+
+  isDisabled() {
+
+    const {
+      disabled,
+    } = this.props;
+    return disabled || false;
+  }
+
+  isTextSelected() {
+
+    const {
+      editorState,
+    } = this.props;
+
+    const selectionState = editorState.getSelection();
+
+    const textSelected = selectionState && (selectionState.getEndOffset() - selectionState.getStartOffset() !== 0);
+
+    return textSelected;
+  }
+
+
+  getSelectionText(editorState) {
+    let selectedText = "";
+    const currentSelection = editorState.getSelection();
+    let start = currentSelection.getAnchorOffset();
+    let end = currentSelection.getFocusOffset();
+    const selectedBlocks = this.getSelectedBlocksList(editorState);
+    if (selectedBlocks.size > 0) {
+      if (currentSelection.getIsBackward()) {
+        const temp = start;
+        start = end;
+        end = temp;
+      }
+      for (let i = 0; i < selectedBlocks.size; i += 1) {
+        const blockStart = i === 0 ? start : 0;
+        const blockEnd =
+          i === selectedBlocks.size - 1
+            ? end
+            : selectedBlocks.get(i).getText().length;
+        selectedText += selectedBlocks
+          .get(i)
+          .getText()
+          .slice(blockStart, blockEnd);
+      }
+    }
+    return selectedText;
+  }
+
+
   render() {
 
     const {
       editorState,
       onChange,
       blockType,
-      icon: Icon,
+      icon,
+      disabled,
       ...other
     } = this.props;
 
+
     return <IconButton
       onClick={() => this.toggleBlockType()}
+      disabled={this.isDisabled()}
       {...other}
     >
-      <Icon />
+      {this.renderIcon()}
     </IconButton>
   }
 }
