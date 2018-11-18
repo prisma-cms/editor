@@ -4,6 +4,13 @@ import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 
 
+import Grid from "material-ui/Grid";
+import IconButton from "material-ui/IconButton";
+
+import DoneIcon from "material-ui-icons/Done";
+
+import Decorator from "decorator";
+
 /**
  * В версии 0.11-alpha порядок методов отличается
  */
@@ -29,22 +36,29 @@ function findLinkEntities(contentBlock, callback, contentState) {
 }
 
 
-export class LinkDecorator extends Component {
-
-  static propTypes = {
-    entityKey: PropTypes.string.isRequired,
-    children: PropTypes.array,
-    contentState: PropTypes.object,
-  };
-
-  state = {
-  };
+export class LinkDecorator extends Decorator {
 
 
   onUrlChange = event => {
-    event.preventDefault();
-    event.stopPropagation();
+
+    const {
+      value,
+    } = event.target;
+
+
+    this.updateData({
+      url: value,
+    });
+
   }
+
+
+
+
+  // componentWillReceiveProps(nextProps, nextState) {
+  //   console.log("decorator componentWillReceiveProps", nextProps);
+  // }
+
 
   render() {
 
@@ -52,7 +66,16 @@ export class LinkDecorator extends Component {
       children,
       entityKey,
       contentState,
+      decoratedText,
+      isReadOnly,
     } = this.props;
+
+    const {
+      editing,
+      showEditor,
+    } = this.state;
+
+    const readOnly = isReadOnly();
 
     const {
       url,
@@ -63,51 +86,90 @@ export class LinkDecorator extends Component {
     //   rgreg  rg gerg erg herg rger g <input />
     // </span>
 
-    console.log("Link decorator props", this.props);
+    // console.log("Link decorator props", this.props);
+
+    // console.log("Link decorator readOnly", readOnly);
+    // console.log("Link decorator editing", editing);
 
     return (
       <Fragment>
         <a
-          // onMouseEnter={this.toggleShowPopOver}
-          // onMouseLeave={this.toggleShowPopOver}
           href={url || ""}
           target={targetOption}
+          // onMouseEnter={this.toggleShowPopOver}
+          // onMouseLeave={this.toggleShowPopOver}
+          onMouseDown={this.showEditor}
         >
           {children}
+
         </a>
+        {!readOnly && showEditor
+          ?
+          <Grid
+            container
+            alignItems="center"
+          >
+            <Grid
+              item
+              xs
+            >
+              <input
+                type="text"
+                // value={url || ""}
+                value={url || ""}
+                onChange={this.onUrlChange}
+                onFocus={this.startEdit}
+                onBlur={this.endEdit}
+                style={{
+                  width: "100%",
+                }}
+              // onClick={event => {
+              //   console.log("Input url onClick", event);
+              //   event.preventDefault();
+              //   event.stopPropagation();
+              //   return 'handled';
+              // }}
+              // onMouseDown={event => {
+              //   // console.log("Input url onMouseDown", event);
+              //   // event.preventDefault();
+              //   // event.stopPropagation();
 
-        <input
-          type="text"
-          value={url || ""}
-          onChange={this.onUrlChange}
-          onFocus={event => {
-            console.log("Input url onFocus", event);
-            event.preventDefault();
-            event.stopPropagation();
-            return 'handled';
-          }}
-          onClick={event => {
-            console.log("Input url onClick", event);
-            event.preventDefault();
-            event.stopPropagation();
-            return 'handled';
-          }}
-          // onMouseDown={event => {
-          //   console.log("Input url onMouseDown", event);
-          //   event.preventDefault();
-          //   event.stopPropagation();
+              //   // event.target.focus();
 
-          //   event.target.focus();
+              //   this.startEdit();
 
-          //   return 'handled';
-          // }}
-          onMouseEnter={event => {
-            console.log("Input url onMouseEnter", event);
-            event.preventDefault();
-            event.stopPropagation();
-            return 'handled';
-          }}
-        />
+              //   return 'handled';
+              // }}
+              // onMouseEnter={event => {
+              //   console.log("Input url onMouseEnter", event);
+              //   event.preventDefault();
+              //   event.stopPropagation();
+              //   return 'handled';
+              // }}
+              />
+            </Grid>
+            <Grid
+              item
+            >
+              <IconButton
+                onClick={this.hideEditor}
+              >
+                <DoneIcon
+                  style={{
+                    color: "green",
+                  }}
+                />
+              </IconButton>
+            </Grid>
+          </Grid>
+          :
+          null
+        }
+
+        {/* {children} */}
+
+        {/* {decoratedText} */}
+
 
       </Fragment>
     );
@@ -117,4 +179,5 @@ export class LinkDecorator extends Component {
 export default config => ({
   strategy: findLinkEntities,
   component: LinkDecorator,
+  ...config,
 });

@@ -51,16 +51,16 @@ export default class ToggleBlockType extends Component {
 
     const block = this.getSelectedBlock(editorState);
 
-    console.log("getSelectionEntity block", block);
-    console.log("getSelectionEntity block start end", start, end);
+    // console.log("getSelectionEntity block", block);
+    // console.log("getSelectionEntity block start end", start, end);
     
     for (let i = start; i < end; i += 1) {
 
-      console.log("getSelectionEntity block loop", i);
+      // console.log("getSelectionEntity block loop", i);
 
       const currentEntity = block.getEntityAt(i);
 
-      console.log("getSelectionEntity currentEntity", currentEntity);
+      // console.log("getSelectionEntity currentEntity", currentEntity);
 
       if (!currentEntity) {
         entity = undefined;

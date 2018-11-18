@@ -44,6 +44,7 @@ import LinkControl, {
   decorator as linkDecorator,
 } from "./controls/Link";
 
+
 const {
   hasCommandModifier
 } = KeyBindingUtil;
@@ -109,6 +110,12 @@ export class PrismaEditor extends Component {
   }
 
 
+  // static childContextTypes = {
+  //   onEditStart: PropTypes.func,
+  //   onEditEnd: PropTypes.func,
+  // }
+
+
   constructor(props) {
 
     super(props);
@@ -128,6 +135,15 @@ export class PrismaEditor extends Component {
     };
 
   }
+
+
+  // getChildContext() {
+
+  //   return {
+  //     onEditStart: this.onEditStart.bind(this),
+  //     onEditEnd: this.onEditEnd.bind(this),
+  //   };
+  // }
 
 
   initState(value) {
@@ -231,9 +247,17 @@ export class PrismaEditor extends Component {
 
 
   getCompositeDecorator = () => {
+
     const decorators = [
       ...this.props.decorators,
       linkDecorator({
+        props: {
+          onEditStart: this.onEditStart,
+          onEditEnd: this.onEditEnd,
+          onChange: this.onChange,
+          getEditorState: this.getEditorState,
+          isReadOnly: this.isReadOnly,
+        },
       }),
     ];
 
@@ -243,14 +267,25 @@ export class PrismaEditor extends Component {
   }
 
 
+  getEditorState = () => {
+    return this.state.editorState;
+  }
+
+  isReadOnly = () => {
+    return this.props.readOnly;
+  }
+
+
   componentDidUpdate(prevProps, prevState) {
 
     const {
       value: prevValue,
+      readOnly: prevReadOnly,
     } = prevProps;
 
     const {
       value,
+      readOnly,
     } = this.props;
 
     const {
@@ -260,15 +295,16 @@ export class PrismaEditor extends Component {
     // console.log("componentDidUpdate", value === prevValue);
     // console.log("componentDidUpdate rawContent", value === rawContent);
 
-    if ((value !== undefined && rawContent !== undefined) && value !== rawContent) {
+    if (
+      ((value !== undefined && rawContent !== undefined) && value !== rawContent && value !== prevValue)
+      || readOnly !== prevReadOnly
+    ) {
 
-      if (value !== prevValue) {
-        const {
-          editorState,
-        } = this.initState(value);
+      const {
+        editorState,
+      } = this.initState(value);
 
-        this.onChange(editorState);
-      }
+      this.onChange(editorState);
 
     }
   }
@@ -431,18 +467,19 @@ export class PrismaEditor extends Component {
       .filter((plug) => plug.blockRenderMap !== undefined)
       .reduce((maps, plug) => maps.merge(plug.blockRenderMap), Map({}));
 
-    console.log("blockRenderMap", blockRenderMap);
+    // console.log("blockRenderMap", blockRenderMap);
+
     if (defaultBlockRenderMap) {
       blockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
     }
 
-    console.log("blockRenderMap", blockRenderMap);
+    // console.log("blockRenderMap", blockRenderMap);
 
     if (this.props.blockRenderMap) {
       blockRenderMap = blockRenderMap.merge(this.props.blockRenderMap);
     }
 
-    console.log("blockRenderMap", blockRenderMap);
+    // console.log("blockRenderMap", blockRenderMap);
 
     return blockRenderMap;
   };
@@ -453,15 +490,15 @@ export class PrismaEditor extends Component {
     // console.log("blockRenderer block type", block.getType());
     // console.log("blockRenderer block type", block, a, b, c);
 
-      return {
-        sdfdsf33333333: "fgfdgfd",
-        props: {
-          sdfdsf222222222: "fgfdgfd",
-        },
-        customConfig: {
-          sdfdsf55555555555: "fgfdgfd",
-        },
-      };
+    // return {
+    //   sdfdsf33333333: "fgfdgfd",
+    //   props: {
+    //     sdfdsf222222222: "fgfdgfd",
+    //   },
+    //   customConfig: {
+    //     sdfdsf55555555555: "fgfdgfd",
+    //   },
+    // };
 
     return null;
 
@@ -616,7 +653,7 @@ export class PrismaEditor extends Component {
               // event.preventDefault();
               // event.stopPropagation();
               // return 'handled';
-              this.startCustomBlockEdit();
+              this.onEditStart();
             }}
             // onMouseLeave={event => {
             onBlur={event => {
@@ -624,7 +661,7 @@ export class PrismaEditor extends Component {
               // event.preventDefault();
               // event.stopPropagation();
               // return 'handled';
-              this.endCustomBlockEdit();
+              this.onEditEnd();
             }}
           />
         </div>
@@ -657,7 +694,7 @@ export class PrismaEditor extends Component {
   }
 
 
-  startCustomBlockEdit() {
+  onEditStart = () => {
     const {
       inEditBlocksCount = 0,
     } = this.state;
@@ -666,7 +703,7 @@ export class PrismaEditor extends Component {
     });
   }
 
-  endCustomBlockEdit() {
+  onEditEnd = () => {
     const {
       inEditBlocksCount = 0,
     } = this.state;
@@ -735,7 +772,14 @@ export class PrismaEditor extends Component {
     //   onChange: this.onChange,
     // };
 
-    console.log("inEditBlocksCount", inEditBlocksCount);
+    // console.log("inEditBlocksCount", inEditBlocksCount);
+
+    console.log("editorState", editorState);
+
+    const selectionState = editorState.getSelection();
+
+    const textSelected = selectionState && (selectionState.getEndOffset() - selectionState.getStartOffset() !== 0);
+
 
     return (
       <div
@@ -826,6 +870,7 @@ export class PrismaEditor extends Component {
                   className={classes.iconButton}
                   editorState={editorState}
                   onChange={this.onChange}
+                  disabled={!textSelected}
                 />
               </Grid>
 

@@ -95,6 +95,7 @@ export default class LinkBlockType extends ToggleBlockType {
     let newEditorState = EditorState.push(editorState, contentState, 'insert-characters');
 
     console.log("entityKey newEditorState", newEditorState);
+    console.log("entityKey newEditorState compare", newEditorState === editorState);
     // return;
 
     // insert a blank space after link
