@@ -13,6 +13,7 @@ import {
   convertFromHTML,
   CompositeDecorator,
   getDefaultKeyBinding,
+  DefaultDraftBlockRenderMap,
   KeyBindingUtil,
 } from 'draft-js';
 
@@ -25,8 +26,9 @@ import {
 //   getSelectedBlocksType,
 // } from 'draftjs-utils';
 
+import { Map } from 'immutable';
 
-import getLinkDecorator from './decorators/Link';
+// import getLinkDecorator from './decorators/Link';
 import { withStyles, IconButton } from 'material-ui';
 import { Grid } from 'material-ui';
 
@@ -38,10 +40,13 @@ import ListNumberedIcon from "material-ui-icons/FormatListNumbered";
 
 // import ListControl from "./controls/List";
 import ToggleBlockTypeControl from "./controls/ToggleBlockType";
+import LinkControl, {
+  decorator as linkDecorator,
+} from "./controls/Link";
 
-// const {
-//   hasCommandModifier
-// } = KeyBindingUtil;
+const {
+  hasCommandModifier
+} = KeyBindingUtil;
 
 const {
   toggleInlineStyle,
@@ -50,29 +55,18 @@ const {
 
 export const styles = {
   root: {
-
     "&.PrismaEditor--editable": {
-
       "& .DraftEditor-root": {
-
         "& > .DraftEditor-editorContainer": {
-
           "& > .public-DraftEditor-content": {
-
             "& > div[data-contents=true]": {
-
               border: "1px solid #ddd",
               padding: 3,
             }
-
           }
-
         }
-
       }
-
     },
-
   },
   menu: {
     padding: 2,
@@ -100,6 +94,9 @@ export class PrismaEditor extends Component {
     readOnly: PropTypes.bool.isRequired,
     spellCheck: PropTypes.bool.isRequired,
     decorators: PropTypes.array,
+    defaultBlockRenderMap: PropTypes.bool.isRequired,
+
+    plugins: PropTypes.array.isRequired,
   }
 
 
@@ -107,6 +104,8 @@ export class PrismaEditor extends Component {
     readOnly: true,
     spellCheck: true,
     decorators: [],
+    defaultBlockRenderMap: true,
+    plugins: [],
   }
 
 
@@ -234,7 +233,7 @@ export class PrismaEditor extends Component {
   getCompositeDecorator = () => {
     const decorators = [
       ...this.props.decorators,
-      getLinkDecorator({
+      linkDecorator({
       }),
     ];
 
@@ -403,16 +402,278 @@ export class PrismaEditor extends Component {
 
 
 
-  // myKeyBindingFn(event) {
+  keyBinding(event) {
 
-  //   console.log("myKeyBindingFn", event.keyCode);
+    console.log("keyBinding", event.keyCode);
+    // console.log("keyBinding hasCommandModifier", hasCommandModifier(event));
 
-  //   if (event.keyCode === 83 && hasCommandModifier(event)) {
-  //     return 'myeditor-save';
-  //   }
-  //   return getDefaultKeyBinding(event);
-  // }
+    // if (event.keyCode === 83 && hasCommandModifier(event)) {
+    //   return 'myeditor-save';
+    // }
 
+    // if (event.keyCode === 67 && hasCommandModifier(event)) {
+    //   return 'copy';
+    // }
+
+    return getDefaultKeyBinding(event);
+  }
+
+
+  // blockRenderer = (block) => {
+  getBlockRenderMap() {
+
+    const {
+      plugins,
+      defaultBlockRenderMap,
+    } = this.props;
+
+    let blockRenderMap = plugins
+      .filter((plug) => plug.blockRenderMap !== undefined)
+      .reduce((maps, plug) => maps.merge(plug.blockRenderMap), Map({}));
+
+    console.log("blockRenderMap", blockRenderMap);
+    if (defaultBlockRenderMap) {
+      blockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
+    }
+
+    console.log("blockRenderMap", blockRenderMap);
+
+    if (this.props.blockRenderMap) {
+      blockRenderMap = blockRenderMap.merge(this.props.blockRenderMap);
+    }
+
+    console.log("blockRenderMap", blockRenderMap);
+
+    return blockRenderMap;
+  };
+
+
+  blockRenderer = (block, a, b, c) => {
+
+    // console.log("blockRenderer block type", block.getType());
+    // console.log("blockRenderer block type", block, a, b, c);
+
+      return {
+        sdfdsf33333333: "fgfdgfd",
+        props: {
+          sdfdsf222222222: "fgfdgfd",
+        },
+        customConfig: {
+          sdfdsf55555555555: "fgfdgfd",
+        },
+      };
+
+    return null;
+
+    // if (block.getType() === 'atomic') {
+
+    //   if (this.props.fullView !== true && this.state.inEditMode !== true) {
+
+    //     return {
+    //       component: Expander,
+    //       props: {
+    //         expand: setFullView,
+    //       },
+    //     };
+    //   }
+
+    //   return {
+    //     component: TextBlock,
+    //     editable: false,
+    //     props: {
+    //       allow_edit: this.state.inEditMode,
+    //       _insertText: this._insertText,
+    //       fullView: this.props.fullView === true || this.state.inEditMode === true,
+    //       onStartEdit: (blockKey) => {
+    //         // alert('onStartEdit');
+    //         var { liveTeXEdits } = this.state;
+    //         this.setState({ liveTeXEdits: liveTeXEdits.set(blockKey, true) });
+    //       },
+    //       onFinishEdit: (blockKey, newContentState) => {
+    //         // alert('onFinishEdit');
+    //         var { liveTeXEdits } = this.state;
+
+    //         let editorState = EditorState.createWithContent(newContentState);
+
+    //         EditorState.set(editorState, { decorator: decorator });
+
+    //         this.setState({
+    //           liveTeXEdits: liveTeXEdits.remove(blockKey),
+    //           editorState: editorState,
+    //         });
+    //       },
+    //       onRemove: (blockKey) => this._removeTeX(blockKey),
+    //     },
+    //   };
+    // }
+
+    // else if (block.getType() === 'image') {
+
+    //   if (this.props.fullView !== true && this.state.inEditMode !== true) {
+
+    //     return {
+    //       component: Expander,
+    //       props: {
+    //         expand: setFullView,
+    //       },
+    //     };
+    //   }
+
+    //   return {
+    //     component: ImageBlock,
+    //     editable: false,
+    //     props: {
+    //     },
+    //   };
+    // }
+
+
+
+    // return null;
+
+    return {
+      component: props => {
+        console.log("block props", props);
+
+        // return props;
+
+        const {
+          block,
+          blockRenderMap,
+          blockRendererFn,
+          blockStyleFn,
+          contentState,
+          decorator,
+          editorKey,
+          editorState,
+          customStyleFn,
+          customStyleMap,
+          direction,
+          forceSelection,
+          selection,
+          tree,
+        } = props;
+
+
+        const blockKey = block.getKey();
+
+        let text = block.getText();
+
+        const decorations = decorator.getDecorations(block, contentState);
+
+        console.log("block props decorator.getDecorations", decorations);
+
+        decorations.map(key => {
+
+          if (!key) {
+            return;
+          }
+
+          console.log("block props decorator.getDecorations component key", key);
+          console.log("block props decorator.getDecorations component", decorator.getComponentForKey(key));
+
+        })
+
+
+        const selectionStartBlockKey = selection.getStartKey();
+        const selectionEndBlockKey = selection.getEndKey();
+        const selectionStartPosition = selection.getStartOffset();
+        const selectionEndPosition = selection.getEndOffset();
+
+
+        console.log("block props selection", selectionStartBlockKey, selectionEndBlockKey, selectionStartPosition, selectionEndPosition);
+
+        const customClass = blockStyleFn(block);
+
+        console.log("block props customClass", customClass);
+
+        let output = "";
+
+        [...text].map(char => {
+          // output.push(char);
+          output += char;
+        })
+
+        console.log("block props decorator.getDecorations output", output);
+
+        // return <div
+        //   key={blockKey}
+        // >
+        //   {text}
+        // </div>
+
+        return <div
+          key={blockKey}
+          className={customClass}
+        >
+          {output}
+          <input
+            type="text"
+            // onMouseEnter={event => {
+            // onClick={event => {
+            onMouseDown={event => {
+              console.log("Input onMouseEnter", event);
+              // event.preventDefault();
+              // event.stopPropagation();
+              // return 'handled';
+              this.startCustomBlockEdit();
+            }}
+            // onMouseLeave={event => {
+            onBlur={event => {
+              console.log("Input onMouseLeave", event);
+              // event.preventDefault();
+              // event.stopPropagation();
+              // return 'handled';
+              this.endCustomBlockEdit();
+            }}
+          />
+        </div>
+
+        // return <table
+        //   border="1"
+        // >
+        //   <tbody>
+
+        //     <tr>
+        //       <td>
+        //         wefwe
+        //     </td>
+        //       <td>
+        //         dsfsdg
+        //     </td>
+        //       <td>
+        //         dsfsdgdefewf
+        //     </td>
+        //     </tr> 
+
+        //   </tbody>
+        // </table>
+
+      },
+      props: {
+        sdfds1111111111111: 234234,
+      },
+    };
+  }
+
+
+  startCustomBlockEdit() {
+    const {
+      inEditBlocksCount = 0,
+    } = this.state;
+    this.setState({
+      inEditBlocksCount: inEditBlocksCount + 1,
+    });
+  }
+
+  endCustomBlockEdit() {
+    const {
+      inEditBlocksCount = 0,
+    } = this.state;
+    this.setState({
+      inEditBlocksCount: inEditBlocksCount > 0 ? inEditBlocksCount - 1 : inEditBlocksCount,
+    });
+  }
 
 
   toggleInlineStyle(style) {
@@ -454,23 +715,27 @@ export class PrismaEditor extends Component {
     const {
       classes,
       decorators,
+      plugins,
       onChange,
       value,
       readOnly,
+      // defaultBlockRenderMap,
       ...other
     } = this.props;
 
     const {
       editorState,
+      inEditBlocksCount,
     } = this.state;
 
 
 
-    const controlProps = {
-      editorState,
-      onChange: this.onChange,
-    };
+    // const controlProps = {
+    //   editorState,
+    //   onChange: this.onChange,
+    // };
 
+    console.log("inEditBlocksCount", inEditBlocksCount);
 
     return (
       <div
@@ -554,6 +819,16 @@ export class PrismaEditor extends Component {
                 />
               </Grid>
 
+              <Grid
+                item
+              >
+                <LinkControl
+                  className={classes.iconButton}
+                  editorState={editorState}
+                  onChange={this.onChange}
+                />
+              </Grid>
+
               {/* <Grid
                 item
               >
@@ -574,11 +849,17 @@ export class PrismaEditor extends Component {
 
         <Editor
           editorState={editorState}
-          readOnly={readOnly}
+          readOnly={readOnly || inEditBlocksCount > 0}
           onChange={this.onChange}
           handleKeyCommand={this.handleKeyCommand}
-          // blockRenderMap={blockRenderMap}
-          // keyBindingFn={this.myKeyBindingFn}
+          keyBindingFn={this.keyBinding}
+          blockRenderMap={this.getBlockRenderMap()}
+          blockRendererFn={this.blockRenderer}
+          // onFocus={event => {
+          //   console.log("Editor onFocus", event);
+          //   // event.preventDefault();
+          //   // event.stopPropagation();
+          // }}
           {...other}
         />
       </div>

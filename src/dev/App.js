@@ -15,6 +15,7 @@ import App from "../App";
 
 import textData from "./mock/data/text";
 import contentStateData from "./mock/data/contentState";
+import linkStateData from "./mock/data/link";
 
 
 import prism from 'prismjs';
@@ -261,20 +262,18 @@ class DevRenderer extends PrismaCmsRenderer {
             value={contentStateData}
             {...props}
           >
-            {/* <div>
-              <Typography
-                variant="subheading"
-              >
-                Raw text input value:
-              </Typography>
-              <div
-                style={{
-                  whiteSpace: "pre-wrap",
-                }}
-              >
-                {textData}
-              </div>
-            </div> */}
+          </TestRenderer>
+        }
+      },
+      {
+        exact: true,
+        path: "/link",
+        render: props => {
+
+          return <TestRenderer
+            value={linkStateData}
+            {...props}
+          >
           </TestRenderer>
         }
       },
@@ -342,6 +341,17 @@ class DevRenderer extends PrismaCmsRenderer {
               to="/content-state"
             >
               With content-state
+            </Link>
+
+          </Grid>
+
+          <Grid
+            item
+          >
+            <Link
+              to="/link"
+            >
+              Link
             </Link>
 
           </Grid>
