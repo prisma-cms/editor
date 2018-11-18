@@ -153,7 +153,7 @@ export class PrismaEditor extends Component {
 
     const compositeDecorator = this.getCompositeDecorator();
 
-    // console.log("initState value", typeof value, value);
+
 
     if (value) {
 
@@ -163,12 +163,12 @@ export class PrismaEditor extends Component {
       }
       else if (typeof value === "string") {
         const blocks = convertFromHTML(value);
-        // console.log("initState string contentState", blocks);
+
 
         const contentState = ContentState.createFromBlockArray(blocks);
         editorState = EditorState.createWithContent(contentState, compositeDecorator);
 
-        // console.log("initState string editorState", editorState);
+
 
       }
     }
@@ -215,29 +215,29 @@ export class PrismaEditor extends Component {
 
     let selectionState = editorState.getSelection();
 
-    // console.log("selectionState", selectionState);
+
 
     var anchorKey = selectionState.getAnchorKey();
 
-    // console.log("selectionState anchorKey", anchorKey);
+
 
     var start = selectionState.getStartOffset();
     var end = selectionState.getEndOffset();
 
-    // console.log("selectionState start end", start, end);
+
 
     var currentContent = editorState.getCurrentContent();
     var currentContentBlock = currentContent.getBlockForKey(anchorKey);
 
     var selectedText = currentContentBlock.getText().slice(start, end);
 
-    // console.log("selectionState selectedText", selectedText);
+
 
     const currentBlockKey = editorState.getSelection().getStartKey()
     const currentBlockIndex = editorState.getCurrentContent().getBlockMap()
       .keySeq().findIndex(k => k === currentBlockKey)
 
-    // console.log("selectionState currentBlockIndex", currentBlockIndex);
+
 
     return {
       editorState,
@@ -261,7 +261,7 @@ export class PrismaEditor extends Component {
       }),
     ];
 
-    // console.log("decorators", decorators);
+
     return new CompositeDecorator(decorators);
     // return new CompositeDecorator([]);
   }
@@ -292,8 +292,8 @@ export class PrismaEditor extends Component {
       rawContent,
     } = this.state;
 
-    // console.log("componentDidUpdate", value === prevValue);
-    // console.log("componentDidUpdate rawContent", value === rawContent);
+
+
 
     if (
       ((value !== undefined && rawContent !== undefined) && value !== rawContent && value !== prevValue)
@@ -341,15 +341,15 @@ export class PrismaEditor extends Component {
 
   onChange = (editorState) => {
 
-    // console.log("PrismaEditor onChange editorState", editorState);
+
 
     const currentContent = editorState.getCurrentContent();
 
-    // console.log("PrismaEditor onChange editorState.getCurrentContent()", currentContent);
+
 
     const rawContent = convertToRaw(currentContent);
 
-    // console.log("PrismaEditoronChange editorState", editorState === this.state.editorState);
+
 
     this.setState({
       editorState,
@@ -371,15 +371,15 @@ export class PrismaEditor extends Component {
 
   // onChange = (editorState) => {
 
-  //   console.log("PrismaEditor onChange editorState", editorState);
+
 
   //   const currentContent = editorState.getCurrentContent();
 
-  //   console.log("PrismaEditor onChange editorState.getCurrentContent()", currentContent);
+
 
   //   const rawContent = convertToRaw(currentContent);
 
-  //   console.log("PrismaEditor onChange editorState convertToRaw", rawContent);
+
 
 
 
@@ -387,31 +387,31 @@ export class PrismaEditor extends Component {
   //   const currentBlockIndex = editorState.getCurrentContent().getBlockMap()
   //     .keySeq().findIndex(k => k === currentBlockKey)
 
-  //   console.log("PrismaEditor onChange currentBlockIndex", currentBlockIndex);
+
 
 
 
   //   let selectionState = editorState.getSelection();
 
-  //   console.log("PrismaEditor onChange", selectionState);
+
 
   //   var anchorKey = selectionState.getAnchorKey();
 
-  //   console.log("PrismaEditor onChange anchorKey", anchorKey);
+
 
   //   var start = selectionState.getStartOffset();
   //   var end = selectionState.getEndOffset();
 
-  //   console.log("PrismaEditor onChange start end", start, end);
+
 
   //   var currentContentBlock = currentContent.getBlockForKey(anchorKey);
 
   //   var selectedText = currentContentBlock.getText().slice(start, end);
 
-  //   console.log("PrismaEditor onChange selectedText", selectedText);
 
 
-  //   console.log("PrismaEditor onChange currentBlockIndex", currentBlockIndex);
+
+
 
   //   const {
   //     onChange,
@@ -440,8 +440,8 @@ export class PrismaEditor extends Component {
 
   keyBinding(event) {
 
-    console.log("keyBinding", event.keyCode);
-    // console.log("keyBinding hasCommandModifier", hasCommandModifier(event));
+
+
 
     // if (event.keyCode === 83 && hasCommandModifier(event)) {
     //   return 'myeditor-save';
@@ -467,19 +467,19 @@ export class PrismaEditor extends Component {
       .filter((plug) => plug.blockRenderMap !== undefined)
       .reduce((maps, plug) => maps.merge(plug.blockRenderMap), Map({}));
 
-    // console.log("blockRenderMap", blockRenderMap);
+
 
     if (defaultBlockRenderMap) {
       blockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
     }
 
-    // console.log("blockRenderMap", blockRenderMap);
+
 
     if (this.props.blockRenderMap) {
       blockRenderMap = blockRenderMap.merge(this.props.blockRenderMap);
     }
 
-    // console.log("blockRenderMap", blockRenderMap);
+
 
     return blockRenderMap;
   };
@@ -487,8 +487,8 @@ export class PrismaEditor extends Component {
 
   blockRenderer = (block, a, b, c) => {
 
-    // console.log("blockRenderer block type", block.getType());
-    // console.log("blockRenderer block type", block, a, b, c);
+
+
 
     // return {
     //   sdfdsf33333333: "fgfdgfd",
@@ -570,7 +570,7 @@ export class PrismaEditor extends Component {
 
     return {
       component: props => {
-        console.log("block props", props);
+
 
         // return props;
 
@@ -598,7 +598,7 @@ export class PrismaEditor extends Component {
 
         const decorations = decorator.getDecorations(block, contentState);
 
-        console.log("block props decorator.getDecorations", decorations);
+
 
         decorations.map(key => {
 
@@ -606,8 +606,8 @@ export class PrismaEditor extends Component {
             return;
           }
 
-          console.log("block props decorator.getDecorations component key", key);
-          console.log("block props decorator.getDecorations component", decorator.getComponentForKey(key));
+
+
 
         })
 
@@ -618,11 +618,11 @@ export class PrismaEditor extends Component {
         const selectionEndPosition = selection.getEndOffset();
 
 
-        console.log("block props selection", selectionStartBlockKey, selectionEndBlockKey, selectionStartPosition, selectionEndPosition);
+
 
         const customClass = blockStyleFn(block);
 
-        console.log("block props customClass", customClass);
+
 
         let output = "";
 
@@ -631,7 +631,7 @@ export class PrismaEditor extends Component {
           output += char;
         })
 
-        console.log("block props decorator.getDecorations output", output);
+
 
         // return <div
         //   key={blockKey}
@@ -649,7 +649,7 @@ export class PrismaEditor extends Component {
             // onMouseEnter={event => {
             // onClick={event => {
             onMouseDown={event => {
-              console.log("Input onMouseEnter", event);
+
               // event.preventDefault();
               // event.stopPropagation();
               // return 'handled';
@@ -657,7 +657,7 @@ export class PrismaEditor extends Component {
             }}
             // onMouseLeave={event => {
             onBlur={event => {
-              console.log("Input onMouseLeave", event);
+
               // event.preventDefault();
               // event.stopPropagation();
               // return 'handled';
@@ -719,7 +719,7 @@ export class PrismaEditor extends Component {
 
   handleKeyCommand = (command) => {
 
-    console.log("handleKeyCommand", command);
+
 
     if (command === 'myeditor-save') {
       // Perform a request to save your contents, set
@@ -772,9 +772,9 @@ export class PrismaEditor extends Component {
     //   onChange: this.onChange,
     // };
 
-    // console.log("inEditBlocksCount", inEditBlocksCount);
 
-    console.log("editorState toJS()", editorState.toJS());
+
+
 
     const selectionState = editorState.getSelection();
 
@@ -901,7 +901,7 @@ export class PrismaEditor extends Component {
           blockRenderMap={this.getBlockRenderMap()}
           blockRendererFn={this.blockRenderer}
           // onFocus={event => {
-          //   console.log("Editor onFocus", event);
+
           //   // event.preventDefault();
           //   // event.stopPropagation();
           // }}

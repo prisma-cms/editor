@@ -17,9 +17,9 @@ import Decorator from "decorator";
 // function findLinkEntities(contentState, contentBlock, callback) {
 function findLinkEntities(contentBlock, callback, contentState) {
 
-  // console.log("findLinkEntities contentBlock", contentBlock);
-  // console.log("findLinkEntities callback", callback);
-  // console.log("findLinkEntities contentState", contentState);
+
+
+
 
   // return;
 
@@ -56,7 +56,7 @@ export class LinkDecorator extends Decorator {
 
 
   // componentWillReceiveProps(nextProps, nextState) {
-  //   console.log("decorator componentWillReceiveProps", nextProps);
+
   // }
 
 
@@ -86,10 +86,10 @@ export class LinkDecorator extends Decorator {
     //   rgreg  rg gerg erg herg rger g <input />
     // </span>
 
-    console.log("Link decorator props", this.props);
 
-    // console.log("Link decorator readOnly", readOnly);
-    // console.log("Link decorator editing", editing);
+
+
+
 
     return (
       <Fragment>
@@ -124,13 +124,13 @@ export class LinkDecorator extends Decorator {
                   width: "100%",
                 }}
               // onClick={event => {
-              //   console.log("Input url onClick", event);
+
               //   event.preventDefault();
               //   event.stopPropagation();
               //   return 'handled';
               // }}
               // onMouseDown={event => {
-              //   // console.log("Input url onMouseDown", event);
+
               //   // event.preventDefault();
               //   // event.stopPropagation();
 
@@ -141,7 +141,7 @@ export class LinkDecorator extends Decorator {
               //   return 'handled';
               // }}
               // onMouseEnter={event => {
-              //   console.log("Input url onMouseEnter", event);
+
               //   event.preventDefault();
               //   event.stopPropagation();
               //   return 'handled';

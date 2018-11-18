@@ -59,7 +59,7 @@ export default class LinkControl extends ToggleBlockType {
 
     const currentEntity = this.getCurrentEntity();
 
-    console.log("currentEntity", currentEntity);
+
 
     const selectionText = this.getSelectionText(editorState);
 
@@ -70,7 +70,7 @@ export default class LinkControl extends ToggleBlockType {
       linkTitle = selectionText;
     }
 
-    // console.log("selectionText", selectionText);
+
 
     // return;
 
@@ -93,7 +93,7 @@ export default class LinkControl extends ToggleBlockType {
       })
       .getLastCreatedEntityKey();
 
-    console.log("entityKey", entityKey);
+
 
 
     let contentState = Modifier.replaceText(
@@ -104,9 +104,9 @@ export default class LinkControl extends ToggleBlockType {
       entityKey,
     );
 
-    console.log("entityKey contentState", contentState);
 
-    // console.log("entityKey contentState.getCurrentContent", contentState.getCurrentContent());
+
+
 
     // return;
 
@@ -116,8 +116,8 @@ export default class LinkControl extends ToggleBlockType {
      */
     let newEditorState = EditorState.push(editorState, contentState, 'insert-characters');
 
-    console.log("entityKey newEditorState", newEditorState);
-    console.log("entityKey newEditorState compare", newEditorState === editorState);
+
+
     // return;
 
     // insert a blank space after link
@@ -192,13 +192,13 @@ export default class LinkControl extends ToggleBlockType {
 
     const action = this.getCurrentAction();
 
-    console.log("Link control action", action === this.addLink);
+
 
     return disabled || !action;
   }
 
   componentWillReceiveProps(nextProps, nextState) {
-    console.log("Link control componentWillReceiveProps", nextProps);
+
   }
 
   // render() {

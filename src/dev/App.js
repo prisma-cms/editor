@@ -53,7 +53,7 @@ class TestApp extends Component {
 
   //   const css = require('prismjs/themes/prism.css');
 
-  //   console.log("css", css);
+
   // }
 
 
@@ -83,7 +83,7 @@ class TestApp extends Component {
 
         const json = JSON.stringify(newState, null, 2);
 
-        // console.log("Test json", json);
+
 
         stateOutput = prism.highlight(json, prism.languages["json"]);
       }
