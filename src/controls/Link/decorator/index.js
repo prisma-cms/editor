@@ -9,7 +9,7 @@ import IconButton from "material-ui/IconButton";
 
 import DoneIcon from "material-ui-icons/Done";
 
-import Decorator from "decorator";
+import Decorator from "../../../components/decorator";
 import { TextField } from 'material-ui';
 
 import URI from "urijs";
@@ -72,6 +72,7 @@ export class LinkDecorator extends Decorator {
       contentState,
       decoratedText,
       isReadOnly,
+      onClick,
     } = this.props;
 
     const {
@@ -102,7 +103,7 @@ export class LinkDecorator extends Decorator {
 
       uri = new URI(url);
 
-      // console.log("uri", uri);
+
 
       /**
        * Если это текущий домен, то делаем ссылку локальной
@@ -154,11 +155,26 @@ export class LinkDecorator extends Decorator {
           target={target}
           // onMouseEnter={this.toggleShowPopOver}
           // onMouseLeave={this.toggleShowPopOver}
-          onMouseDown={this.showEditor}
+          // onMouseDown={this.showEditor}
+          onClick={event => {
+
+
+            if (!readOnly) {
+
+              event.preventDefault();
+
+              this.showEditor(event)
+              return;
+            }
+
+            return onClick && onClick(event) || false;
+
+          }}
         >
           {children}
 
         </Element>
+
         {!readOnly && (showEditor || !url)
           ?
           <div

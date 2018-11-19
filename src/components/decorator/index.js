@@ -87,7 +87,11 @@ class PrismaDecorator extends Component {
   }
 
 
-  showEditor = () => {
+  showEditor = (event) => {
+
+    // event.preventDefault();
+    // event.stopPropagation();
+
     this.setState({
       showEditor: true,
     })

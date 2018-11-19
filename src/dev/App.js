@@ -17,6 +17,7 @@ import textData from "./mock/data/text";
 import contentStateData from "./mock/data/contentState";
 import linkStateData from "./mock/data/link";
 import codeStateData from "./mock/data/code";
+import imageStateData from "./mock/data/image";
 
 
 import prism from 'prismjs';
@@ -291,6 +292,18 @@ class DevRenderer extends PrismaCmsRenderer {
         }
       },
       {
+        exact: true,
+        path: "/image",
+        render: props => {
+
+          return <TestRenderer
+            value={imageStateData}
+            {...props}
+          >
+          </TestRenderer>
+        }
+      },
+      {
         path: "*",
         render: props => this.renderOtherPages(props),
       },
@@ -376,6 +389,17 @@ class DevRenderer extends PrismaCmsRenderer {
               to="/code"
             >
               Code
+            </Link>
+
+          </Grid>
+
+          <Grid
+            item
+          >
+            <Link
+              to="/image"
+            >
+              Image
             </Link>
 
           </Grid>

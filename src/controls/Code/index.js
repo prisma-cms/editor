@@ -44,7 +44,7 @@ const styles = (theme) => {
     }
   }
 
-  console.log("theme", theme);
+
 
   return {
 
@@ -137,7 +137,7 @@ export class TextBlock extends React.Component {
   constructor(props) {
     super(props);
 
-    // console.log('TextBlock construct', props);
+
 
     this.state = {
       editMode: false,
@@ -145,7 +145,7 @@ export class TextBlock extends React.Component {
       allow_edit: props.blockProps.allow_edit,
     };
 
-    // console.log('TextBlock construct state', props, this.state);
+
 
     this._onClick = () => {
 
@@ -203,7 +203,7 @@ export class TextBlock extends React.Component {
 
     this._remove = () => {
 
-      // console.log('this.props.blockProps.onRemove', this.props.block.getKey());
+
 
       this.props.blockProps.onRemove(this.props.block.getKey());
     };
@@ -256,7 +256,7 @@ export class TextBlock extends React.Component {
 
   componentWillReceiveProps(nextProps) {
 
-    // console.log("TextBlock componentWillReceiveProps", nextProps);
+
 
     if (nextProps.blockProps.allow_edit != this.state.allow_edit) {
       this.setState({

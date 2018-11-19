@@ -50,6 +50,9 @@ import TextBlock from './controls/Code/';
 import { insertTextBlock } from './modifiers/insertTextBlock';
 import { removeTextBlock } from './modifiers/removeTextBlock';
 
+
+import ImageBlock from './blocks/image';
+
 const {
   hasCommandModifier
 } = KeyBindingUtil;
@@ -307,9 +310,14 @@ export class PrismaEditor extends Component {
     } = this.state;
 
 
+    /**
+     * Приходится отслеживать несколько условий для обновления стейта, чтобы перерендеривался.
+     * Надо будет переработать логику
+     */
+    if (readOnly !== prevReadOnly && readOnly) {
 
-
-    if (
+    }
+    else if (
       ((value !== undefined && rawContent !== undefined) && value !== rawContent && value !== prevValue)
       || readOnly !== prevReadOnly
     ) {
@@ -567,25 +575,25 @@ export class PrismaEditor extends Component {
 
     }
 
-    // else if (block.getType() === 'image') {
+    else if (block.getType() === 'image') {
 
-    //   if (this.props.fullView !== true && this.state.inEditMode !== true) {
+      // if (this.props.fullView !== true && this.state.inEditMode !== true) {
 
-    //     return {
-    //       component: Expander,
-    //       props: {
-    //         expand: setFullView,
-    //       },
-    //     };
-    //   }
+      //   return {
+      //     component: Expander,
+      //     props: {
+      //       expand: setFullView,
+      //     },
+      //   };
+      // }
 
-    //   return {
-    //     component: ImageBlock,
-    //     editable: false,
-    //     props: {
-    //     },
-    //   };
-    // }
+      return {
+        component: ImageBlock,
+        editable: false,
+        props: {
+        },
+      };
+    }
 
 
 
@@ -727,7 +735,7 @@ export class PrismaEditor extends Component {
 
   _removeTeX = (blockKey) => {
 
-    console.log("_removeTeX blockKey", blockKey);
+
 
     const {
       editorState,
