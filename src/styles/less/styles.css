@@ -1,7 +1,6 @@
 .Editor-text {
   background-color: transparent!important;
   margin: 0;
-  padding: 20px 0;
   transition: background-color 0.2s fade-in-out;
 }
 .Editor-text .text-content {

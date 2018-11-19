@@ -26,6 +26,7 @@ import 'prismjs/components/prism-php.js';
 import 'prismjs/components/prism-sql.js';
 import 'prismjs/components/prism-smarty.js';
 import 'prismjs/components/prism-jsx.js';
+import 'prismjs/components/prism-graphql.js';
 import withStyles from 'material-ui/styles/withStyles';
 
 const CodeOutputBlockPropTypes = {
@@ -273,6 +274,10 @@ export class TextBlock extends React.Component {
       classes,
     } = this.props;
 
+    const {
+      allow_edit,
+    } = this.state;
+
     var texContent = null;
     if (this.state.editMode) {
       // if (this.state.invalidTeX) {
@@ -304,6 +309,10 @@ export class TextBlock extends React.Component {
       className += ' Editor-activeText';
     }
 
+    if (allow_edit) {
+      className += ' edit';
+    }
+
     var editPanel = null;
     // if (this.state.allow_edit && this.state.editMode) {
     if (this.state.editMode) {
@@ -315,14 +324,17 @@ export class TextBlock extends React.Component {
       let height = "40px";
 
       let langs = [{
-        value: "php",
-        label: "PHP",
-      }, {
         value: "javascript",
         label: "Javascript",
       }, {
         value: "jsx",
         label: "JSX",
+      }, {
+        value: "graphql",
+        label: "Graphql",
+      }, {
+        value: "php",
+        label: "PHP",
       }, {
         value: "sql",
         label: "SQL",

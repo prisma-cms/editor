@@ -37,6 +37,7 @@ import ItalicIcon from "material-ui-icons/FormatItalic";
 import UnderlinedIcon from "material-ui-icons/FormatUnderlined";
 import ListBulletedIcon from "material-ui-icons/FormatListBulleted";
 import ListNumberedIcon from "material-ui-icons/FormatListNumbered";
+import CodeIcon from 'material-ui-icons/Code';
 
 // import ListControl from "./controls/List";
 import ToggleBlockTypeControl from "./controls/ToggleBlockType";
@@ -739,6 +740,8 @@ export class PrismaEditor extends Component {
 
     this.onChange(newEditorState);
 
+    this.onEditEnd();
+
     // return newEditorState
 
     return;
@@ -750,6 +753,11 @@ export class PrismaEditor extends Component {
     //   editorState: removeTextBlock(editorState, blockKey),
     // });
   };
+
+
+  insertCodeBlock = () => {
+    this._insertText();
+  }
 
 
   onEditStart = () => {
@@ -932,6 +940,17 @@ export class PrismaEditor extends Component {
                 />
               </Grid>
 
+              <Grid
+                item
+              >
+                <IconButton
+                  className={classes.iconButton}
+                  onClick={this.insertCodeBlock}
+                >
+                  <CodeIcon />
+                </IconButton>
+              </Grid>
+
               {/* <Grid
                 item
               >
@@ -966,12 +985,16 @@ export class PrismaEditor extends Component {
           {...other}
         />
 
+        {/* <div>
+          inEditBlocksCount: {inEditBlocksCount}
+        </div>
         <div>
           getStartOffset: {selectionState.getStartOffset()}
         </div>
         <div>
           getEndOffset: {selectionState.getEndOffset()}
-        </div>
+        </div> */}
+
       </div>
     );
   }
