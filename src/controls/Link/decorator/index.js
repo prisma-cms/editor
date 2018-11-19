@@ -43,6 +43,12 @@ function findLinkEntities(contentBlock, callback, contentState) {
 export class LinkDecorator extends Decorator {
 
 
+  // static contextTypes = {
+  //   ...Decorator.contextType,
+  //   uri: PropTypes.object.isRequired,
+  // }
+
+
   onUrlChange = event => {
 
     let {
@@ -99,6 +105,10 @@ export class LinkDecorator extends Decorator {
 
     let target;
 
+    const {
+      location,
+    } = global;
+
     if (url) {
 
       uri = new URI(url);
@@ -108,7 +118,7 @@ export class LinkDecorator extends Decorator {
       /**
        * Если это текущий домен, то делаем ссылку локальной
        */
-      if (uri.origin() === global.location.origin) {
+      if (location && uri.origin() === location.origin) {
         uri.origin("")
       }
 
