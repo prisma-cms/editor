@@ -108,7 +108,7 @@ export class PrismaEditor extends Component {
 
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    value: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
+    value: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     readOnly: PropTypes.bool.isRequired,
     spellCheck: PropTypes.bool.isRequired,
     decorators: PropTypes.array,
