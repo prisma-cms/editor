@@ -1,3 +1,7 @@
+1.1.3
+=================================
+- Upgrade component-boilerplate
+
 1.1.2
 =================================
 - Make value not required
