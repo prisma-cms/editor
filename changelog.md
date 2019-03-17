@@ -1,3 +1,7 @@
+1.3.4
+=================================
+- Exclude react-router-dom from dependencies
+
 1.3.3
 =================================
 - Upgrade component-boilerplate
