@@ -15,7 +15,7 @@ import {
   getDefaultKeyBinding,
   DefaultDraftBlockRenderMap,
   KeyBindingUtil,
-} from 'draft-js';
+} from 'draft-js-android-fix';
 
 // import {
 //   changeDepth,

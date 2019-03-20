@@ -1,3 +1,7 @@
+1.4.0
+=================================
+- Upgrade draft-js (with android fix)
+
 1.3.4
 =================================
 - Exclude react-router-dom from dependencies
