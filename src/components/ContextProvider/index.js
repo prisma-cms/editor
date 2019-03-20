@@ -3,10 +3,7 @@ import React, {
   Component,
 } from 'react';
 
-
-import {
-  Context,
-} from "../../App";
+import Context from '@prisma-cms/context';
 
 
 class ContextProvider extends Component {
@@ -57,8 +54,14 @@ class ContextProvider extends Component {
 
   }
 
-
   prepareQuery() {
+
+    return {
+      ...this.prepareUserQuery(),
+    }
+  }
+
+  prepareUserQuery() {
 
 
     const {
@@ -68,6 +71,7 @@ class ContextProvider extends Component {
 
     const {
       UserNoNestingFragment,
+      BatchPayloadNoNestingFragment,
     } = queryFragments;
 
 
@@ -137,7 +141,7 @@ class ContextProvider extends Component {
       query user (
         $where: UserWhereUniqueInput!
       ){
-        object: users (
+        object: user (
           where: $where
         ){
           ...UserNoNesting
@@ -197,12 +201,42 @@ class ContextProvider extends Component {
 
 
 
+    const deleteUser = `
+      mutation deleteUser (
+        $where: UserWhereUniqueInput!
+      ){
+        deleteUser(
+          where: $where
+        ){
+          ...UserNoNesting
+        }
+      }
+      ${UserNoNestingFragment}
+    `;
+
+
+    const deleteManyUsers = `
+      mutation deleteManyUsers (
+        $where: UserWhereInput
+      ){
+        deleteManyUsers(
+          where: $where
+        ){
+          ...BatchPayloadNoNesting
+        }
+      }
+      ${BatchPayloadNoNestingFragment}
+    `;
+
+
     return {
       usersConnection,
       users,
       user,
       createUserProcessor,
       updateUserProcessor,
+      deleteUser,
+      deleteManyUsers,
     }
 
   }
