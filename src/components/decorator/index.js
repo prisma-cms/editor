@@ -6,7 +6,7 @@ import {
   EditorState,
   ContentState,
   Modifier,
-} from 'draft-js';
+} from 'draft-js-android-fix';
 
 
 class PrismaDecorator extends Component {

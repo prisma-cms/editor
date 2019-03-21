@@ -4,7 +4,7 @@
 import {
   AtomicBlockUtils,
   EditorState,
-} from 'draft-js';
+} from 'draft-js-android-fix';
 
 // let count = 0;
 // const examples = [

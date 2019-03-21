@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { RichUtils } from 'draft-js';
+import { RichUtils } from 'draft-js-android-fix';
 
 import IconButton from 'material-ui/IconButton';
 

@@ -14,7 +14,7 @@
 
 'use strict';
 
-import {EditorState, Modifier, SelectionState} from 'draft-js';
+import {EditorState, Modifier, SelectionState} from 'draft-js-android-fix';
 
 export function removeTextBlock(editorState, blockKey) {
   var content = editorState.getCurrentContent();

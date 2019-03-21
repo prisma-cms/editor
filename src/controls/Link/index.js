@@ -7,7 +7,7 @@ import {
   // RichUtils,
   EditorState,
   Modifier,
-} from 'draft-js';
+} from 'draft-js-android-fix';
 
 import LinkIcon from "material-ui-icons/Link";
 

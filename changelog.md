@@ -1,30 +1,8 @@
-<<<<<<< HEAD
+1.4.1
+=================================
+- Fix draft-js
+
 1.4.0
-=======
-1.3.7
-=================================
-- Fix react-router
-
-1.3.6
-=================================
-- Added custom menu
-
-1.3.5
-=================================
-- Fix user query
-- Add deleteUser query
-- Add deleteManyUsers query
-
-1.3.4
-=================================
-- Fix mount App
-
-1.3.3
-=================================
-- Fix contexts 
-
-1.3.2
->>>>>>> 4465641ea1caf05a0b2e2df0e7433dc3bb59cef0
 =================================
 - Upgrade draft-js (with android fix)
 
