@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 import PrismaCmsApp from '@prisma-cms/front'
 import { Renderer as PrismaCmsRenderer } from '@prisma-cms/front'
 
-import * as queryFragments from "@prisma-cms/front/lib/schema/generated/api.fragments";
-
-import { Grid } from 'material-ui';
-import { Typography } from 'material-ui';
+import Grid from 'material-ui/Grid';
+import Typography from 'material-ui/Typography';
+import Button from 'material-ui/Button';
+import withStyles from 'material-ui/styles/withStyles';
 
 import { Link } from "react-router-dom";
 
@@ -22,8 +22,6 @@ import imageStateData from "./mock/data/image";
 
 import prism from 'prismjs';
 import 'prismjs/components/prism-json.js';
-import { Button } from 'material-ui';
-import { withStyles } from 'material-ui';
 
 
 class TestApp extends Component {
@@ -433,23 +431,19 @@ class DevRenderer extends PrismaCmsRenderer {
 export default class DevApp extends Component {
 
   static propTypes = {
-    queryFragments: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
-    queryFragments,
     lang: "ru",
   }
 
   render() {
 
     const {
-      queryFragments,
       ...other
     } = this.props;
 
     return <PrismaCmsApp
-      queryFragments={queryFragments}
       Renderer={DevRenderer}
       // pure={true}
       {...other}

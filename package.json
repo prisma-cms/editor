@@ -1,7 +1,7 @@
 {
   "name": "@prisma-cms/editor",
   "description": "Editor for @prisma-cms",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "private": false,
   "main": "lib/App.js",
   "scripts": {
@@ -9,6 +9,7 @@
     "build": "yarn build-less && nwb build --copy-files",
     "build-app": "react-scripts build",
     "build-less": "node-less-chokidar src/styles/less",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -25,11 +26,11 @@
   },
   "devDependencies": {
     "@prisma-cms/front": "latest",
-    "@prisma-cms/server": "latest",
     "graphql-cli": "2.17.0",
     "node-less-chokidar": "^0.3.1",
     "nwb": "^0.23.0",
-    "react-scripts": "2.1.2"
+    "react-scripts": "2.1.2",
+    "source-map-explorer": "^2.0.1"
   },
   "resolutions": {
     "graphql": "14.0.2",

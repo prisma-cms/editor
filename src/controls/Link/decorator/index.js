@@ -10,10 +10,10 @@ import IconButton from "material-ui/IconButton";
 import DoneIcon from "material-ui-icons/Done";
 
 import Decorator from "../../../components/decorator";
-import { TextField } from 'material-ui';
+import TextField from 'material-ui/TextField';
+import Typography from 'material-ui/Typography';
 
 import URI from "urijs";
-import { Typography } from 'material-ui';
 
 /**
  * В версии 0.11-alpha порядок методов отличается

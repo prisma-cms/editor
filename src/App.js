@@ -29,8 +29,9 @@ import {
 import { Map } from 'immutable';
 
 // import getLinkDecorator from './decorators/Link';
-import { withStyles, IconButton } from 'material-ui';
-import { Grid } from 'material-ui';
+import withStyles from 'material-ui/styles/withStyles';
+import IconButton from 'material-ui/IconButton';
+import Grid from 'material-ui/Grid';
 
 import BoldIcon from "material-ui-icons/FormatBold";
 import ItalicIcon from "material-ui-icons/FormatItalic";

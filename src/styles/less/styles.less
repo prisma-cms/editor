@@ -73,3 +73,40 @@
 
   }
 } 
+
+.rdw-editor-wrapper{
+
+  // margin: 0;
+
+  .public-DraftEditorPlaceholder-root{
+    padding: 10px 15px;
+  }
+
+  .DraftEditor-editorContainer{
+
+    .public-DraftEditor-content{
+
+      &[contenteditable="true"]{
+
+        > div{
+          min-height: 100px;
+          padding: 10px 15px;
+          border: 1px solid #d1d8dc;
+          border-radius: 5px;
+          transition: all 0.25s;
+
+          &:focus{
+            border-color: #1aa3ff;
+          }
+        }
+      }
+
+      .public-DraftStyleDefault-block{
+        margin: 0.3rem 0;
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+ 
