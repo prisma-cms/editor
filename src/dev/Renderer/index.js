@@ -9,6 +9,28 @@ import App, {
 import { Renderer as PrismaCmsRenderer } from '@prisma-cms/front'
 
 import MainMenu from './MainMenu';
+import { withStyles } from 'material-ui';
+import DevMainPage from './pages/MainPage';
+
+
+export const styles = {
+
+  root: {
+    // border: "1px solid blue",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+
+    "& #Renderer--body": {
+      // border: "1px solid green",
+      flex: 1,
+      overflow: "auto",
+      display: "flex",
+      flexDirection: "column",
+    },
+  },
+}
+
 
 class DevRenderer extends PrismaCmsRenderer {
 
@@ -30,9 +52,23 @@ class DevRenderer extends PrismaCmsRenderer {
 
     return [
       {
-        exact: true,
+        exact: false,
         path: "/",
-        component: App,
+        component: DevMainPage,
+        // render: props => {
+        //   // console.log("props", { ...props });
+        //   return <DevMainPage
+        //     {...props}
+        //   >
+        //     <div>
+        //     Test
+        //     </div>
+        //   </DevMainPage>;
+        // }
+        // render: props => {
+        //   console.log("props", { ...props });
+        //   return null;
+        // }
       },
       // {
       //   path: "*",
@@ -48,32 +84,49 @@ class DevRenderer extends PrismaCmsRenderer {
 
     return <MainMenu />
   }
-  
 
-  renderWrapper() {
 
-    return <ContextProvider>
-      <SubscriptionProvider>
-        {super.renderWrapper()}
-      </SubscriptionProvider>
-    </ContextProvider>;
+  // renderWrapper() {
 
-  }
+  //   return <ContextProvider>
+  //     <SubscriptionProvider>
+  //       {super.renderWrapper()}
+  //     </SubscriptionProvider>
+  //   </ContextProvider>;
+
+  // }
 
 
   render() {
 
     const {
       pure,
+      classes,
       ...other
     } = this.props;
 
     return pure ? <App
       {...other}
-    /> : super.render();
+    /> :
+      <div
+        className={classes.root}
+      >
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+            body, html, #root{
+              height: 100%;
+            }
+          `,
+          }}
+        />
+        {super.render()}
+      </div>;
 
   }
 
 }
 
-export default DevRenderer;
+export default withStyles(styles)(props => <DevRenderer
+  {...props}
+/>);

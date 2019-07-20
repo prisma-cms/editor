@@ -412,4 +412,6 @@ export class TextBlock extends React.Component {
 TextBlock.propTypes = propTypes;
 TextBlock.defaultProps = defaultProps;
 
-export default withStyles(styles)(TextBlock);
+export default withStyles(styles)(props => <TextBlock
+  {...props}
+/>);

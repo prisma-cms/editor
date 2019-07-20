@@ -1,3 +1,9 @@
+1.6.0
+=================================
+- Upgrade boilerplate
+- Fix performance
+- Fix test
+
 1.5.0
 =================================
 - Cleanup material-ui

@@ -137,4 +137,6 @@ export class ImageBlock extends React.Component {
 ImageBlock.propTypes = propTypes;
 ImageBlock.defaultProps = defaultProps;
 
-export default withStyles(styles)(ImageBlock);
+export default withStyles(styles)(props => <ImageBlock
+  {...props}
+/>);

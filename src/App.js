@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from "prop-types";
 
 import "./styles/less/styles.css";
@@ -105,7 +105,7 @@ export const styles = {
 }
 
 
-export class PrismaEditor extends Component {
+export class PrismaEditor extends PureComponent {
 
   static propTypes = {
     classes: PropTypes.object.isRequired,
@@ -118,7 +118,6 @@ export class PrismaEditor extends Component {
     plugins: PropTypes.array.isRequired,
   }
 
-
   static defaultProps = {
     readOnly: true,
     spellCheck: true,
@@ -126,12 +125,6 @@ export class PrismaEditor extends Component {
     defaultBlockRenderMap: true,
     plugins: [],
   }
-
-
-  // static childContextTypes = {
-  //   onEditStart: PropTypes.func,
-  //   onEditEnd: PropTypes.func,
-  // }
 
 
   constructor(props) {
@@ -155,22 +148,12 @@ export class PrismaEditor extends Component {
   }
 
 
-  // getChildContext() {
-
-  //   return {
-  //     onEditStart: this.onEditStart.bind(this),
-  //     onEditEnd: this.onEditEnd.bind(this),
-  //   };
-  // }
-
-
   initState(value) {
 
     let editorState;
-    let rawContent;
+    let rawContent = value;
 
     const compositeDecorator = this.getCompositeDecorator();
-
 
 
     if (value) {
@@ -182,54 +165,16 @@ export class PrismaEditor extends Component {
       else if (typeof value === "string") {
         const blocks = convertFromHTML(value);
 
-
         const contentState = ContentState.createFromBlockArray(blocks);
         editorState = EditorState.createWithContent(contentState, compositeDecorator);
-
-
 
       }
     }
 
-    // if (hasProperty(this.props, 'editorState')) {
-    //   if (this.props.editorState) {
-    //     editorState = EditorState.set(this.props.editorState, { decorator: compositeDecorator });
-    //   }
-    // }
-    // else if (hasProperty(this.props, 'defaultEditorState')) {
-    //   if (this.props.defaultEditorState) {
-    //     editorState = EditorState.set(
-    //       this.props.defaultEditorState,
-    //       { decorator: compositeDecorator },
-    //     );
-    //   }
-    // }
-    // else if (hasProperty(this.props, 'contentState')) {
-    //   if (this.props.contentState) {
-    //     const contentState = convertFromRaw(this.props.contentState);
-    //     editorState = EditorState.createWithContent(contentState, compositeDecorator);
-    //     editorState = EditorState.moveSelectionToEnd(editorState);
-    //   }
-    // }
-    // else if (hasProperty(this.props, 'defaultContentState')
-    //   || hasProperty(this.props, 'initialContentState')) {
-    //   let contentState = this.props.defaultContentState || this.props.initialContentState;
-    //   if (contentState) {
-    //     contentState = convertFromRaw(contentState);
-    //     editorState = EditorState.createWithContent(contentState, compositeDecorator);
-    //     editorState = EditorState.moveSelectionToEnd(editorState);
-    //   }
-    // }
 
     if (!editorState) {
-      // editorState = EditorState.createEmpty(compositeDecorator);
       editorState = EditorState.createEmpty(compositeDecorator);
     }
-    else {
-      // editorState = EditorState.moveSelectionToEnd(editorState);
-    }
-
-    // this.compositeDecorator = compositeDecorator;
 
     let selectionState = editorState.getSelection();
 
@@ -311,6 +256,8 @@ export class PrismaEditor extends Component {
     } = this.state;
 
 
+
+
     /**
      * Приходится отслеживать несколько условий для обновления стейта, чтобы перерендеривался.
      * Надо будет переработать логику
@@ -319,59 +266,50 @@ export class PrismaEditor extends Component {
 
     }
     else if (
-      ((value !== undefined && rawContent !== undefined) && value !== rawContent && value !== prevValue)
-      || readOnly !== prevReadOnly
+      // ((value !== undefined && rawContent !== undefined) && value !== rawContent && value !== prevValue)
+      ((value !== undefined) && value !== rawContent && value !== prevValue)
+      // ((value !== undefined) && value !== prevValue)
+      // || readOnly !== prevReadOnly
     ) {
+
+      /**
+       * Важно! Сейчас рассчитано только на сброс кеша или 
+       * любое другое изменение входящего значения. 
+       * В onChange обязательно надо присваивать rawContent.
+       * Это надо будет переделать. Правильней всего в любом случае отправлять во вне editorState,
+       * а там пусть решает изменился contentState или нет (не путать с editorState, см. onChange).
+       */
+
+      // console.log("componentDidUpdate value", value);
+      // console.log("componentDidUpdate prevValue", prevValue);
 
       const {
         editorState,
       } = this.initState(value);
 
-      this.onChange(editorState);
+      this.setState({
+        editorState,
+      }, () => {
+        this.onChange(editorState);
+      });
+
+
+      // const {
+      //   editorState,
+      // } = this.initState(value);
+
+      // this.onChange(editorState);
 
     }
   }
 
 
-  // onChange = (editorState) => {
-
-  //   const {
-  //     readOnly,
-  //     onEditorStateChange,
-  //   } = this.props;
-
-  //   if (
-  //     !readOnly
-  //     &&
-  //     !(getSelectedBlocksType(editorState) === 'atomic' && editorState.getSelection().isCollapsed)
-  //   ) {
-
-  //     if (onEditorStateChange) {
-  //       onEditorStateChange(editorState, this.props.wrapperId);
-  //     }
-
-  //     if (!hasProperty(this.props, 'editorState')) {
-  //       this.setState({ editorState }, this.afterChange(editorState));
-  //     }
-  //     else {
-  //       this.afterChange(editorState);
-  //     }
-
-  //   }
-
-  //   return;
-  // };
 
   onChange = (editorState) => {
 
-
-
-    const currentContent = editorState.getCurrentContent();
-
-
-
-    const rawContent = convertToRaw(currentContent);
-
+    const {
+      editorState: prevState,
+    } = this.state;
 
 
     this.setState({
@@ -382,103 +320,153 @@ export class PrismaEditor extends Component {
         onChange,
       } = this.props;
 
-      Object.assign(this.state, {
-        rawContent,
-      });
+      /**
+       * Only if content modified
+       */
 
-      onChange && onChange(rawContent, editorState);
+      const currentContent = editorState.getCurrentContent();
+
+      if (onChange && currentContent !== prevState.getCurrentContent()) {
+
+        const rawContent = convertToRaw(currentContent);
+
+        Object.assign(this.state, {
+          rawContent,
+        });
+
+        onChange && onChange(rawContent, editorState);
+
+      }
 
     });
 
+    // // console.log("Editor onChange prev state", { ...this.state.editorState }, this.state.editorState);
+
+    // // console.log("Editor onChange new state", { ...editorState }, editorState);
+
+    // const currentSelection = editorState.getSelection();
+    // const prevSelection = prevState.getSelection();
+
+    // const currentContent = editorState.getCurrentContent();
+    // const prevContent = prevState.getCurrentContent();
+
+
+    // console.log("currentContent===prevContent", currentContent === prevContent);
+
+    // // console.log("Editor onChange new state prevSelection.getHasFocus()", this.state.editorState.getSelection().getHasFocus());
+
+    // // console.log("Editor onChange new state currentSelection.getHasFocus()", currentSelection.getHasFocus());
+
+
+    // // if (currentSelection.getHasFocus()) {
+    // //   return;
+    // // }
+
+    // const currentSelectionString = currentSelection ? currentSelection.toString() : "";
+    // const prevSelectionString = prevSelection ? prevSelection.toString() : "";
+
+    // console.log("onChange currentSelectionPosition getStartKey", currentSelection.getStartKey());
+    // console.log("onChange currentSelectionPosition getStartOffset", currentSelection.getStartOffset());
+    // console.log("onChange currentSelectionPosition getFocusOffset", currentSelection.getFocusOffset());
+
+    // console.log("onChange currentSelection", currentSelection, currentSelection.serialize());
+    // console.log(currentSelectionString);
+
+    // console.log("onChange prevSelection", prevSelection, prevSelection.serialize());
+    // console.log(prevSelectionString);
+
+
+    // console.log("onChange currentSelection === prevSelection", currentSelectionString === prevSelectionString);
+
+
+    // const focused = currentSelection.getHasFocus();
+    // const prevFocused = prevSelection.getHasFocus();
+
+
+    // console.log("Editor focused", focused, prevFocused);
+
+
+    // this.setState({
+    //   editorState,
+    // }, () => {
+
+
+
+
+
+    //   if (focused && prevFocused) {
+    //     // if (focused) {
+
+    //     const {
+    //       onChange,
+    //     } = this.props;
+
+
+    //     if (onChange) {
+
+
+    //       // return;
+
+    //       const currentContent = editorState.getCurrentContent();
+
+
+    //       const rawContent = convertToRaw(currentContent);
+
+
+
+    //       Object.assign(this.state, {
+    //         rawContent,
+    //       });
+
+    //       onChange && onChange(rawContent, editorState);
+
+
+    //     }
+
+    //   }
+
+
+    // });
+
   };
 
-  // onChange = (editorState) => {
 
+
+  // onChange = (editorState) => {
 
 
   //   const currentContent = editorState.getCurrentContent();
 
 
-
   //   const rawContent = convertToRaw(currentContent);
 
 
+  //   this.setState({
+  //     editorState,
+  //   }, () => {
 
+  //     const {
+  //       onChange,
+  //     } = this.props;
 
+  //     Object.assign(this.state, {
+  //       rawContent,
+  //     });
 
-  //   const currentBlockKey = editorState.getSelection().getStartKey()
-  //   const currentBlockIndex = editorState.getCurrentContent().getBlockMap()
-  //     .keySeq().findIndex(k => k === currentBlockKey)
+  //     onChange && onChange(rawContent, editorState);
 
-
-
-
-
-  //   let selectionState = editorState.getSelection();
-
-
-
-  //   var anchorKey = selectionState.getAnchorKey();
-
-
-
-  //   var start = selectionState.getStartOffset();
-  //   var end = selectionState.getEndOffset();
-
-
-
-  //   var currentContentBlock = currentContent.getBlockForKey(anchorKey);
-
-  //   var selectedText = currentContentBlock.getText().slice(start, end);
-
-
-
-
-
-
-  //   const {
-  //     onChange,
-  //   } = this.props;
-
-  //   onChange && onChange(rawContent, editorState);
-
-  // };
-
-
-
-  // afterChange = (editorState) => {
-  //   setTimeout(() => {
-  //     const { onChange, onContentStateChange } = this.props;
-  //     if (onChange) {
-  //       onChange(convertToRaw(editorState.getCurrentContent()));
-  //     }
-  //     if (onContentStateChange) {
-  //       onContentStateChange(convertToRaw(editorState.getCurrentContent()));
-  //     }
   //   });
+
   // };
-
-
 
 
   keyBinding(event) {
 
 
-
-
-    // if (event.keyCode === 83 && hasCommandModifier(event)) {
-    //   return 'myeditor-save';
-    // }
-
-    // if (event.keyCode === 67 && hasCommandModifier(event)) {
-    //   return 'copy';
-    // }
-
     return getDefaultKeyBinding(event);
   }
 
 
-  // blockRenderer = (block) => {
   getBlockRenderMap() {
 
     const {
@@ -508,66 +496,29 @@ export class PrismaEditor extends Component {
   };
 
 
-  blockRenderer = (block, a, b, c) => {
+  blockRenderer = (block) => {
 
-
-
-
-    // return {
-    //   sdfdsf33333333: "fgfdgfd",
-    //   props: {
-    //     sdfdsf222222222: "fgfdgfd",
-    //   },
-    //   customConfig: {
-    //     sdfdsf55555555555: "fgfdgfd",
-    //   },
-    // };
-
-    // return null;
 
     if (block.getType() === 'atomic') {
 
       return {
         component: TextBlock,
         editable: false,
-        // editable: true,
         props: {
-          // allow_edit: this.state.inEditMode,
           allow_edit: !this.isReadOnly(),
-          // fullView: this.props.fullView === true || this.state.inEditMode === true,
           onStartEdit: this.onEditStart,
-          // onStartEdit: () => {
-
-          // },
-          // onStartEdit: (blockKey) => {
-          //   // alert('onStartEdit');
-          //   var { liveTeXEdits } = this.state;
-          //   this.setState({ liveTeXEdits: liveTeXEdits.set(blockKey, true) });
-          // },
           onFinishEdit: (blockKey, newContentState) => {
 
             const {
               editorState,
             } = this.state;
 
-            // let newEditorState = EditorState.push(editorState, newContentState, 'change-block-data');
             let newEditorState = EditorState.push(editorState, newContentState, 'change-block-type');
 
             this.onChange(newEditorState);
 
             this.onEditEnd();
 
-            // alert('onFinishEdit');
-            // var { liveTeXEdits } = this.state;
-
-            // let editorState = EditorState.createWithContent(newContentState);
-
-            // EditorState.set(editorState, { decorator: decorator });
-
-            // this.setState({
-            //   liveTeXEdits: liveTeXEdits.remove(blockKey),
-            //   editorState: editorState,
-            // });
           },
           _insertText: this._insertText,
           onRemove: (blockKey) => this._removeTeX(blockKey),
@@ -577,16 +528,6 @@ export class PrismaEditor extends Component {
     }
 
     else if (block.getType() === 'image') {
-
-      // if (this.props.fullView !== true && this.state.inEditMode !== true) {
-
-      //   return {
-      //     component: Expander,
-      //     props: {
-      //       expand: setFullView,
-      //     },
-      //   };
-      // }
 
       return {
         component: ImageBlock,
@@ -600,130 +541,6 @@ export class PrismaEditor extends Component {
 
     return null;
 
-
-    return {
-      component: props => {
-
-
-        // return props;
-
-        const {
-          block,
-          blockRenderMap,
-          blockRendererFn,
-          blockStyleFn,
-          contentState,
-          decorator,
-          editorKey,
-          editorState,
-          customStyleFn,
-          customStyleMap,
-          direction,
-          forceSelection,
-          selection,
-          tree,
-        } = props;
-
-
-        const blockKey = block.getKey();
-
-        let text = block.getText();
-
-        const decorations = decorator.getDecorations(block, contentState);
-
-
-
-        decorations.map(key => {
-
-          if (!key) {
-            return;
-          }
-
-
-
-
-        })
-
-
-        const selectionStartBlockKey = selection.getStartKey();
-        const selectionEndBlockKey = selection.getEndKey();
-        const selectionStartPosition = selection.getStartOffset();
-        const selectionEndPosition = selection.getEndOffset();
-
-
-
-
-        const customClass = blockStyleFn(block);
-
-
-
-        let output = "";
-
-        [...text].map(char => {
-          // output.push(char);
-          output += char;
-        })
-
-
-
-        // return <div
-        //   key={blockKey}
-        // >
-        //   {text}
-        // </div>
-
-        return <div
-          key={blockKey}
-          className={customClass}
-        >
-          {output}
-          <input
-            type="text"
-            // onMouseEnter={event => {
-            // onClick={event => {
-            onMouseDown={event => {
-
-              // event.preventDefault();
-              // event.stopPropagation();
-              // return 'handled';
-              this.onEditStart();
-            }}
-            // onMouseLeave={event => {
-            onBlur={event => {
-
-              // event.preventDefault();
-              // event.stopPropagation();
-              // return 'handled';
-              this.onEditEnd();
-            }}
-          />
-        </div>
-
-        // return <table
-        //   border="1"
-        // >
-        //   <tbody>
-
-        //     <tr>
-        //       <td>
-        //         wefwe
-        //     </td>
-        //       <td>
-        //         dsfsdg
-        //     </td>
-        //       <td>
-        //         dsfsdgdefewf
-        //     </td>
-        //     </tr> 
-
-        //   </tbody>
-        // </table>
-
-      },
-      props: {
-        sdfds1111111111111: 234234,
-      },
-    };
   }
 
 
@@ -751,16 +568,8 @@ export class PrismaEditor extends Component {
 
     this.onEditEnd();
 
-    // return newEditorState
 
     return;
-    // var entityKey = this.props.block.getEntityAt(0);
-
-    // var { editorState, liveTeXEdits } = this.state;
-    // this.setState({
-    //   // liveTeXEdits: liveTeXEdits.remove(blockKey),
-    //   editorState: removeTextBlock(editorState, blockKey),
-    // });
   };
 
 
@@ -841,19 +650,7 @@ export class PrismaEditor extends Component {
     } = this.state;
 
 
-
-    // const controlProps = {
-    //   editorState,
-    //   onChange: this.onChange,
-    // };
-
-
-
-
-
-    const selectionState = editorState.getSelection();
-
-    // const textSelected = selectionState && (selectionState.getEndOffset() - selectionState.getStartOffset() !== 0);
+    // const selectionState = editorState.getSelection();
 
 
     return (
@@ -903,17 +700,6 @@ export class PrismaEditor extends Component {
                 </IconButton>
               </Grid>
 
-              {/* <Grid
-                item
-              >
-                <IconButton
-                  // onClick={() => this.toggleInlineStyle("UNDERLINE")}
-                  className={classes.iconButton}
-                >
-                  <ListBulletedIcon />
-                </IconButton>
-              </Grid> */}
-
               <Grid
                 item
               >
@@ -960,18 +746,6 @@ export class PrismaEditor extends Component {
                 </IconButton>
               </Grid>
 
-              {/* <Grid
-                item
-              >
-                <ListControl
-                  // onClick={() => this.toggleInlineStyle("UNDERLINE")}
-                  editorState={editorState}
-                  onChange={this.onChange}
-                  className={classes.iconButton}
-                />
-
-              </Grid> */}
-
             </Grid>
           </div>
           :
@@ -986,27 +760,15 @@ export class PrismaEditor extends Component {
           keyBindingFn={this.keyBinding}
           blockRenderMap={this.getBlockRenderMap()}
           blockRendererFn={this.blockRenderer}
-          // onFocus={event => {
-
-          //   // event.preventDefault();
-          //   // event.stopPropagation();
-          // }}
           {...other}
         />
 
-        {/* <div>
-          inEditBlocksCount: {inEditBlocksCount}
-        </div>
-        <div>
-          getStartOffset: {selectionState.getStartOffset()}
-        </div>
-        <div>
-          getEndOffset: {selectionState.getEndOffset()}
-        </div> */}
 
       </div>
     );
   }
 }
 
-export default withStyles(styles)(PrismaEditor);
+export default withStyles(styles)(props => <PrismaEditor
+  {...props}
+/>);
