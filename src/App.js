@@ -14,7 +14,7 @@ import {
   CompositeDecorator,
   getDefaultKeyBinding,
   DefaultDraftBlockRenderMap,
-  KeyBindingUtil,
+  // KeyBindingUtil,
 } from 'draft-js-android-fix';
 
 // import {
@@ -49,18 +49,18 @@ import LinkControl, {
 import TextBlock from './controls/Code/';
 
 import { insertTextBlock } from './modifiers/insertTextBlock';
-import { removeTextBlock } from './modifiers/removeTextBlock';
+// import { removeTextBlock } from './modifiers/removeTextBlock';
 
 
 import ImageBlock from './blocks/image';
 
-const {
-  hasCommandModifier
-} = KeyBindingUtil;
+// const {
+//   hasCommandModifier
+// } = KeyBindingUtil;
 
 const {
   toggleInlineStyle,
-  onTab,
+  // onTab,
 } = RichUtils;
 
 export const styles = {
@@ -176,29 +176,29 @@ export class PrismaEditor extends PureComponent {
       editorState = EditorState.createEmpty(compositeDecorator);
     }
 
-    let selectionState = editorState.getSelection();
+    // let selectionState = editorState.getSelection();
 
 
 
-    var anchorKey = selectionState.getAnchorKey();
+    // var anchorKey = selectionState.getAnchorKey();
 
 
 
-    var start = selectionState.getStartOffset();
-    var end = selectionState.getEndOffset();
+    // var start = selectionState.getStartOffset();
+    // var end = selectionState.getEndOffset();
 
 
 
-    var currentContent = editorState.getCurrentContent();
-    var currentContentBlock = currentContent.getBlockForKey(anchorKey);
+    // var currentContent = editorState.getCurrentContent();
+    // var currentContentBlock = currentContent.getBlockForKey(anchorKey);
 
-    var selectedText = currentContentBlock.getText().slice(start, end);
+    // var selectedText = currentContentBlock.getText().slice(start, end);
 
 
 
-    const currentBlockKey = editorState.getSelection().getStartKey()
-    const currentBlockIndex = editorState.getCurrentContent().getBlockMap()
-      .keySeq().findIndex(k => k === currentBlockKey)
+    // const currentBlockKey = editorState.getSelection().getStartKey()
+    // const currentBlockIndex = editorState.getCurrentContent().getBlockMap()
+    //   .keySeq().findIndex(k => k === currentBlockKey)
 
 
 
@@ -615,15 +615,14 @@ export class PrismaEditor extends PureComponent {
 
       case "bold":
         return this.toggleInlineStyle("BOLD");
-        break;
 
       case "italic":
         return this.toggleInlineStyle("ITALIC");
-        break;
 
       case "underline":
         return this.toggleInlineStyle("UNDERLINE");
-        break;
+
+      default:;
 
     }
 
@@ -640,7 +639,8 @@ export class PrismaEditor extends PureComponent {
       onChange,
       value,
       readOnly,
-      // defaultBlockRenderMap,
+      blockRenderMap,
+      defaultBlockRenderMap,
       ...other
     } = this.props;
 

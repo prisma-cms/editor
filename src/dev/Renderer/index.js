@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+/* eslint-disable react/forbid-foreign-prop-types */
+import React from 'react';
 import PropTypes from "prop-types";
 
 import App, {
-  ContextProvider,
-  SubscriptionProvider,
+  // ContextProvider,
+  // SubscriptionProvider,
 } from "../../App";
 
 import { Renderer as PrismaCmsRenderer } from '@prisma-cms/front'
@@ -12,6 +13,7 @@ import MainMenu from './MainMenu';
 import { withStyles } from 'material-ui';
 import DevMainPage from './pages/MainPage';
 
+import { Map } from "immutable";
 
 export const styles = {
 
@@ -54,7 +56,7 @@ class DevRenderer extends PrismaCmsRenderer {
       {
         exact: false,
         path: "/",
-        component: DevMainPage,
+        // component: DevMainPage,
         // render: props => {
         //   // console.log("props", { ...props });
         //   return <DevMainPage
@@ -65,10 +67,24 @@ class DevRenderer extends PrismaCmsRenderer {
         //     </div>
         //   </DevMainPage>;
         // }
-        // render: props => {
-        //   console.log("props", { ...props });
-        //   return null;
-        // }
+        render: props => {
+
+          const blockRenderMap = Map({
+            // 'paragraph': {
+            //   element: 'span'
+            // },
+            'unstyled': {
+              element: 'p'
+            }
+          });
+
+
+          return <DevMainPage
+            blockRenderMap={blockRenderMap}
+          >
+
+          </DevMainPage>;
+        }
       },
       // {
       //   path: "*",

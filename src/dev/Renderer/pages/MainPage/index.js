@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+// import PropTypes from 'prop-types';
 
 import Page from "../layout";
 // import DevApp from '../../../App';
 
 
-import TestApp from "./TestApp";
+import DevApp from "./TestApp";
 
 
 class DevMainPage extends Page {
@@ -27,6 +27,7 @@ class DevMainPage extends Page {
     } = this.props;
 
     // console.log("children", children, typeof children);
+    // console.log("DevMainPage this.props", this.props);
 
     return super.render(
       <div>
@@ -43,10 +44,10 @@ class DevMainPage extends Page {
         <div
           id="content"
         >
-          <TestApp
+          <DevApp
             {...other}
           >
-          </TestApp>
+          </DevApp>
 
           {children || "Main page"}
 

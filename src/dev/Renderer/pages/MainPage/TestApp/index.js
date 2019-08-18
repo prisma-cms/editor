@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-foreign-prop-types */
 import React, { PureComponent } from 'react';
 import PropTypes from "prop-types";
 
@@ -102,15 +103,15 @@ class TestApp extends EditableObject {
     const {
       value,
       children,
-      history,
-      location,
-      match,
+      // history,
+      // location,
+      // match,
       classes,
       ...other
     } = this.props;
 
     const {
-      value: stateValue,
+      // value: stateValue,
       // newState,
       readOnly,
     } = this.state;
@@ -167,7 +168,7 @@ class TestApp extends EditableObject {
       </div>
 
       <App
-        // {...other}
+        {...other}
         onChange={this.onChangeBind}
         // value={stateValue}
         // value={newState || stateValue}
@@ -251,7 +252,7 @@ const TestRenderer = withStyles({
 />)
 
 
-class DevRenderer extends PrismaCmsRenderer {
+class InnerDevRenderer extends PrismaCmsRenderer {
 
 
   static propTypes = {
@@ -267,6 +268,17 @@ class DevRenderer extends PrismaCmsRenderer {
 
   getRoutes() {
 
+    const {
+      classes,
+      PageNotFound,
+      Auth,
+      routes: routesNull,
+      useMetamask,
+      ...other
+    } = this.props;
+
+    // console.log("InnerDevRenderer this.props", this.props);
+
     let routes = [
       {
         exact: true,
@@ -274,17 +286,19 @@ class DevRenderer extends PrismaCmsRenderer {
         // component: TestRenderer,
         render: props => {
 
+          // console.log("router props", props);
+
           return <div>
 
             <TestRenderer
               cacheKey={"test_editor/1"}
-              {...props}
+              {...other}
             >
             </TestRenderer>
 
             <TestRenderer
               cacheKey={"test_editor/2"}
-              {...props}
+              {...other}
             >
             </TestRenderer>
           </div>
@@ -304,7 +318,7 @@ class DevRenderer extends PrismaCmsRenderer {
                 newState: textData,
               },
             }}
-            {...props}
+            {...other}
           >
             <div>
               <Typography
@@ -332,7 +346,7 @@ class DevRenderer extends PrismaCmsRenderer {
             // value={contentStateData}
             cacheKey={"test_editor/with-state"}
             data={withContentState}
-            {...props}
+            {...other}
           >
           </TestRenderer>
         }
@@ -350,7 +364,7 @@ class DevRenderer extends PrismaCmsRenderer {
                 newState: linkStateData,
               },
             }}
-            {...props}
+            {...other}
           >
           </TestRenderer>
         }
@@ -368,7 +382,7 @@ class DevRenderer extends PrismaCmsRenderer {
                 newState: codeStateData,
               },
             }}
-            {...props}
+            {...other}
           >
           </TestRenderer>
         }
@@ -386,7 +400,7 @@ class DevRenderer extends PrismaCmsRenderer {
                 newState: imageStateData,
               },
             }}
-            {...props}
+            {...other}
           >
           </TestRenderer>
         }
@@ -534,7 +548,7 @@ export default class DevApp extends PureComponent {
     } = this.props;
 
     return <PrismaCmsApp
-      Renderer={DevRenderer}
+      Renderer={InnerDevRenderer}
       // pure={true}
       {...other}
     />
