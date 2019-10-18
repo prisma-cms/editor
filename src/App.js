@@ -116,6 +116,7 @@ export class PrismaEditor extends PureComponent {
     defaultBlockRenderMap: PropTypes.bool.isRequired,
 
     plugins: PropTypes.array.isRequired,
+    show_toolbar: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -124,6 +125,7 @@ export class PrismaEditor extends PureComponent {
     decorators: [],
     defaultBlockRenderMap: true,
     plugins: [],
+    show_toolbar: true,
   }
 
 
@@ -641,6 +643,7 @@ export class PrismaEditor extends PureComponent {
       readOnly,
       blockRenderMap,
       defaultBlockRenderMap,
+      show_toolbar,
       ...other
     } = this.props;
 
@@ -658,7 +661,7 @@ export class PrismaEditor extends PureComponent {
         className={[classes.root, !readOnly ? "PrismaEditor--editable" : ""].join(" ")}
       >
 
-        {!readOnly
+        {!readOnly && show_toolbar
           ?
           <div
             className={classes.menu}
