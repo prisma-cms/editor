@@ -1,7 +1,7 @@
 {
   "name": "@prisma-cms/editor",
   "description": "Editor for @prisma-cms",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "private": false,
   "main": "lib/App.js",
   "scripts": {
