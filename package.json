@@ -19,7 +19,7 @@
     "immutable": "3.7.6",
     "material-ui": "1.0.0-beta.43",
     "material-ui-icons": "^1.0.0-beta.17",
-    "prismjs": "1.6.0",
+    "prismjs": "1.21.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "urijs": "^1.19.1"
