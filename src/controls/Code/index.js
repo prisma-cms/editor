@@ -19,7 +19,7 @@ import React from 'react';
 
 import Chip from 'material-ui/Chip';
 
-import 'prismjs/themes/prism.css';
+// import 'prismjs/themes/prism.css';
 
 import prism from 'prismjs';
 import 'prismjs/components/prism-php.js';
