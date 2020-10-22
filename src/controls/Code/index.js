@@ -12,14 +12,12 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-'use strict';
+
 
 import React from 'react';
 
 
 import Chip from 'material-ui/Chip';
-
-// import 'prismjs/themes/prism.css';
 
 import prism from 'prismjs';
 import 'prismjs/components/prism-php.js';
@@ -85,7 +83,7 @@ class CodeOutputBlock extends React.Component {
 
   componentWillReceiveProps(nextProps) {
 
-    if (nextProps.lang != this.state.lang) {
+    if (nextProps.lang !== this.state.lang) {
       this.setState({
         lang: nextProps.lang,
       });
@@ -105,7 +103,7 @@ class CodeOutputBlock extends React.Component {
 
     var output;
 
-    var language;
+    // var language;
     var lang = this.state.lang;
 
     if (typeof prism.languages[lang] == "undefined") {
@@ -258,7 +256,7 @@ export class TextBlock extends React.Component {
 
 
 
-    if (nextProps.blockProps.allow_edit != this.state.allow_edit) {
+    if (nextProps.blockProps.allow_edit !== this.state.allow_edit) {
       this.setState({
         allow_edit: nextProps.blockProps.allow_edit,
       });
@@ -321,7 +319,7 @@ export class TextBlock extends React.Component {
       //   buttonClass += ' Editor-invalidButton';
       // }
 
-      let height = "40px";
+      // let height = "40px";
 
       let langs = [{
         value: "javascript",
@@ -354,7 +352,7 @@ export class TextBlock extends React.Component {
       langs.map((item) => {
         var className = [classes.chip];
 
-        if (item.value == this.state.lang) {
+        if (item.value === this.state.lang) {
           className.push("active");
         }
 
@@ -369,6 +367,8 @@ export class TextBlock extends React.Component {
             });
           }}
         />);
+
+        return null;
       });
 
       editPanel =

@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React, { Fragment } from 'react';
 
 import { Link } from "react-router-dom";
 
@@ -76,13 +75,11 @@ export class LinkDecorator extends Decorator {
       children,
       entityKey,
       contentState,
-      decoratedText,
       isReadOnly,
       onClick,
     } = this.props;
 
     const {
-      editing,
       showEditor,
     } = this.state;
 
@@ -177,7 +174,7 @@ export class LinkDecorator extends Decorator {
               return;
             }
 
-            return onClick && onClick(event) || false;
+            return (onClick && onClick(event)) || false;
 
           }}
         >
