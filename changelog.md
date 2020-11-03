@@ -1,3 +1,7 @@
+1.7.1
+=================================
+- Fix smarty renderer
+
 1.7.0
 =================================
 - Remove styles due styled-components compatibility

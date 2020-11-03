@@ -20,11 +20,12 @@ import React from 'react';
 import Chip from 'material-ui/Chip';
 
 import prism from 'prismjs';
-import 'prismjs/components/prism-php.js';
-import 'prismjs/components/prism-sql.js';
-import 'prismjs/components/prism-smarty.js';
-import 'prismjs/components/prism-jsx.js';
-import 'prismjs/components/prism-graphql.js';
+import 'prismjs/components/prism-markup-templating';
+import 'prismjs/components/prism-php';
+import 'prismjs/components/prism-sql';
+import 'prismjs/components/prism-smarty';
+import 'prismjs/components/prism-jsx';
+import 'prismjs/components/prism-graphql';
 import withStyles from 'material-ui/styles/withStyles';
 
 const CodeOutputBlockPropTypes = {
