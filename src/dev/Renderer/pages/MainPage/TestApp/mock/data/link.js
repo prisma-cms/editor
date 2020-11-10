@@ -29,7 +29,22 @@ export default {
         }
       ],
       "data": {}
-    }
+    },
+    {
+      "key": "bhhcb",
+      "text": "Link to /content-state",
+      "type": "unstyled",
+      "depth": 0,
+      "inlineStyleRanges": [],
+      "entityRanges": [
+        {
+          "offset": 8,
+          "length": 14,
+          "key": 1
+        }
+      ],
+      "data": {}
+    },
   ],
   "entityMap": {
     "0": {
@@ -38,6 +53,13 @@ export default {
       "data": {
         "url": "https://modxclub.ru"
       }
-    }
+    },
+    "1": {
+      "type": "LINK",
+      "mutability": "MUTABLE",
+      "data": {
+        "url": "/content-state"
+      }
+    },
   }
 }

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 
 import Grid from "material-ui/Grid";
@@ -19,9 +20,6 @@ import URI from "urijs";
  */
 // function findLinkEntities(contentState, contentBlock, callback) {
 function findLinkEntities(contentBlock, callback, contentState) {
-
-
-
 
 
   // return;
@@ -46,6 +44,16 @@ export class LinkDecorator extends Decorator {
   //   ...Decorator.contextType,
   //   uri: PropTypes.object.isRequired,
   // }
+
+  static propTypes = {
+    // eslint-disable-next-line react/forbid-foreign-prop-types
+    ...Decorator.propTypes,
+
+    /**
+     * Link component to render
+     */
+    Component: PropTypes.func.isRequired,
+  }
 
 
   onUrlChange = event => {
@@ -77,6 +85,8 @@ export class LinkDecorator extends Decorator {
       contentState,
       isReadOnly,
       onClick,
+      // Component: Link,
+      Component: Element,
     } = this.props;
 
     const {
@@ -95,8 +105,8 @@ export class LinkDecorator extends Decorator {
 
     let helperText = "Укажите адрес ссылки";
 
-    let Element = "a";
-    let to;
+    // let Element = "a";
+    let to = url;
 
     let uri;
 
@@ -122,7 +132,7 @@ export class LinkDecorator extends Decorator {
 
       if (!uri.scheme()) {
 
-        Element = Link;
+        // Element = Link;
         to = uri.toString();
 
 
@@ -153,6 +163,8 @@ export class LinkDecorator extends Decorator {
 
     }
 
+    // console.log("Element url", url);
+    // console.log("Element to", to);
 
     return (
       <Fragment>

@@ -1,6 +1,4 @@
 
-
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -20,6 +18,7 @@ export { decorator };
 export default class LinkControl extends ToggleBlockType {
 
   static propTypes = {
+    // eslint-disable-next-line react/forbid-foreign-prop-types
     ...ToggleBlockType.propTypes,
     blockType: PropTypes.string,
   }

@@ -56,8 +56,6 @@ describe('@prisma-cms/tests app', () => {
 
       const item = node.querySelector("#test");
 
-      // console.log("node.textContent", node.textContent);
-
       expect(item).toNotBe(null);
       expect(item.textContent).toBe("Test");
 
@@ -72,10 +70,8 @@ describe('@prisma-cms/tests app', () => {
 
     expect(node.querySelector("#content").textContent).toContain("Main page");
     expect(node.querySelector("#buttons").textContent).toContain("Force update");
-    expect(node.querySelector("#prisma-cms-performance-tester")).toNotBe(null);
+    // expect(node.querySelector("#prisma-cms-performance-tester")).toNotBe(null);
 
-    // expect(node.textContent).toContain("Users");
-    // expect(node.textContent).toContain("Signin");
 
   });
 

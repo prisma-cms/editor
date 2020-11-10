@@ -27,8 +27,6 @@ describe('Editor', () => {
 
       return () => {
 
-        console.log("test generateRandomKey mock default");
-
         count++;
 
         return count;
