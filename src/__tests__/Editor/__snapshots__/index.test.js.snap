@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Editor Render Editor with mocked generateRandomKey 1`] = `
+<div>
+  <div
+    class="Component-root-1 "
+  >
+    <div
+      class="DraftEditor-root"
+    >
+      <div
+        class="DraftEditor-editorContainer"
+      >
+        <div
+          aria-describedby="placeholder-test-editor"
+          class="public-DraftEditor-content"
+          contenteditable="false"
+          spellcheck="true"
+          style="outline: none; user-select: text; white-space: pre-wrap; word-wrap: break-word;"
+        >
+          <div
+            data-contents="true"
+          >
+            <div
+              class=""
+              data-block="true"
+              data-editor="test-editor"
+              data-offset-key="5-0-0"
+            >
+              <div
+                class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr"
+                data-offset-key="5-0-0"
+              >
+                <span
+                  data-offset-key="5-0-0"
+                >
+                  <span
+                    data-text="true"
+                  >
+                        Test content     
+                  </span>
+                </span>
+              </div>
+            </div>
+            <ul
+              class="public-DraftStyleDefault-ul"
+              data-offset-key="1-0-0"
+            >
+              <li
+                class="public-DraftStyleDefault-unorderedListItem public-DraftStyleDefault-reset public-DraftStyleDefault-depth0 public-DraftStyleDefault-listLTR"
+                data-block="true"
+                data-editor="test-editor"
+                data-offset-key="1-0-0"
+              >
+                <div
+                  class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr"
+                  data-offset-key="1-0-0"
+                >
+                  <span
+                    data-offset-key="1-0-0"
+                  >
+                    <span
+                      data-text="true"
+                    >
+                      Row 1
+                    </span>
+                  </span>
+                </div>
+              </li>
+              <li
+                class="public-DraftStyleDefault-unorderedListItem public-DraftStyleDefault-depth0 public-DraftStyleDefault-listLTR"
+                data-block="true"
+                data-editor="test-editor"
+                data-offset-key="3-0-0"
+              >
+                <div
+                  class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr"
+                  data-offset-key="3-0-0"
+                >
+                  <span
+                    data-offset-key="3-0-0"
+                  >
+                    <span
+                      data-text="true"
+                    >
+                      Row 2
+                    </span>
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
