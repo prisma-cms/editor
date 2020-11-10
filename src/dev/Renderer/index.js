@@ -56,23 +56,9 @@ class DevRenderer extends PrismaCmsRenderer {
       {
         exact: false,
         path: "/",
-        // component: DevMainPage,
-        // render: props => {
-        //   // console.log("props", { ...props });
-        //   return <DevMainPage
-        //     {...props}
-        //   >
-        //     <div>
-        //     Test
-        //     </div>
-        //   </DevMainPage>;
-        // }
         render: props => {
 
           const blockRenderMap = Map({
-            // 'paragraph': {
-            //   element: 'span'
-            // },
             'unstyled': {
               element: 'p'
             }
@@ -86,10 +72,6 @@ class DevRenderer extends PrismaCmsRenderer {
           </DevMainPage>;
         }
       },
-      // {
-      //   path: "*",
-      //   render: props => this.renderOtherPages(props),
-      // },
     ].concat(routes);
 
   }

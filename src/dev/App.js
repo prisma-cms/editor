@@ -1,11 +1,11 @@
 import "../styles/less/styles.less";
 
-import React, { Fragment } from 'react';
+import React from 'react';
 // import PropTypes from 'prop-types';
 
 import { PrismaEditor as App, styles } from '../App';
 
-import PrismaCmsPerformanceTester from "@prisma-cms/performance";
+// import PrismaCmsPerformanceTester from "@prisma-cms/performance";
 import withStyles from 'material-ui/styles/withStyles';
 
 export class DevApp extends App {
@@ -16,24 +16,24 @@ export class DevApp extends App {
   // }
 
 
-  render() {
+  // render() {
 
-    return <Fragment>
-      <div
-        id="prisma-cms-performance-tester"
-      >
-        <PrismaCmsPerformanceTester
-          // test={{}}
-          props={this.props}
-          state={this.state}
-          context={this.context}
-          prefix="dev_app"
-        />
-      </div>
+  //   return <Fragment>
+  //     <div
+  //       id="prisma-cms-performance-tester"
+  //     >
+  //       <PrismaCmsPerformanceTester
+  //         // test={{}}
+  //         props={this.props}
+  //         state={this.state}
+  //         context={this.context}
+  //         prefix="dev_app"
+  //       />
+  //     </div>
 
-      {super.render()}
-    </Fragment>
-  }
+  //     {super.render()}
+  //   </Fragment>
+  // }
 
 }
 

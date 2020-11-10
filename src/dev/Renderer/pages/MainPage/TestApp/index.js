@@ -84,13 +84,6 @@ class TestApp extends EditableObject {
 
   onChangeBind = newState => {
 
-    // this.setState({
-    //   value: newState,
-    //   newState,
-    // });
-
-    // console.log("onChange newState", newState);
-
     this.updateObject({
       newState,
     });
@@ -277,16 +270,11 @@ class InnerDevRenderer extends PrismaCmsRenderer {
       ...other
     } = this.props;
 
-    // console.log("InnerDevRenderer this.props", this.props);
-
     let routes = [
       {
         exact: true,
         path: "/",
-        // component: TestRenderer,
         render: props => {
-
-          // console.log("router props", props);
 
           return <div>
 
@@ -365,6 +353,32 @@ class InnerDevRenderer extends PrismaCmsRenderer {
               },
             }}
             {...other}
+          >
+          </TestRenderer>
+        }
+      },
+      {
+        exact: true,
+        path: "/link-custom",
+        render: props => {
+
+          return <TestRenderer
+            // value={linkStateData}
+            {...other}
+            cacheKey={"test_editor/link"}
+            data={{
+              object: {
+                newState: linkStateData,
+              },
+            }}
+            LinkComponent={({
+              to: href,
+              style,
+              children,
+              ...other
+            }) => {
+              return <a {...other} href={href} style={{ ...style, color: "green" }}>{children}</a>;
+            }}
           >
           </TestRenderer>
         }
@@ -480,6 +494,17 @@ class InnerDevRenderer extends PrismaCmsRenderer {
               to="/link"
             >
               Link
+            </Link>
+
+          </Grid>
+
+          <Grid
+            item
+          >
+            <Link
+              to="/link-custom"
+            >
+              Custom Link Component
             </Link>
 
           </Grid>

@@ -26,9 +26,6 @@ class DevMainPage extends Page {
       ...other
     } = this.props;
 
-    // console.log("children", children, typeof children);
-    // console.log("DevMainPage this.props", this.props);
-
     return super.render(
       <div>
         <div

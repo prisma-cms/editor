@@ -38,6 +38,8 @@ import ListBulletedIcon from "material-ui-icons/FormatListBulleted";
 import ListNumberedIcon from "material-ui-icons/FormatListNumbered";
 import CodeIcon from 'material-ui-icons/Code';
 
+import { Link } from "react-router-dom";
+
 // import ListControl from "./controls/List";
 import ToggleBlockTypeControl from "./controls/ToggleBlockType";
 import LinkControl, {
@@ -115,6 +117,7 @@ export class PrismaEditor extends PureComponent {
 
     plugins: PropTypes.array.isRequired,
     show_toolbar: PropTypes.bool.isRequired,
+    LinkComponent: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -124,6 +127,7 @@ export class PrismaEditor extends PureComponent {
     defaultBlockRenderMap: true,
     plugins: [],
     show_toolbar: true,
+    LinkComponent: Link,
   }
 
 
@@ -176,32 +180,6 @@ export class PrismaEditor extends PureComponent {
       editorState = EditorState.createEmpty(compositeDecorator);
     }
 
-    // let selectionState = editorState.getSelection();
-
-
-
-    // var anchorKey = selectionState.getAnchorKey();
-
-
-
-    // var start = selectionState.getStartOffset();
-    // var end = selectionState.getEndOffset();
-
-
-
-    // var currentContent = editorState.getCurrentContent();
-    // var currentContentBlock = currentContent.getBlockForKey(anchorKey);
-
-    // var selectedText = currentContentBlock.getText().slice(start, end);
-
-
-
-    // const currentBlockKey = editorState.getSelection().getStartKey()
-    // const currentBlockIndex = editorState.getCurrentContent().getBlockMap()
-    //   .keySeq().findIndex(k => k === currentBlockKey)
-
-
-
     return {
       editorState,
       rawContent,
@@ -220,6 +198,7 @@ export class PrismaEditor extends PureComponent {
           onChange: this.onChange,
           getEditorState: this.getEditorState,
           isReadOnly: this.isReadOnly,
+          Component: this.props.LinkComponent,
         },
       }),
     ];
@@ -280,8 +259,6 @@ export class PrismaEditor extends PureComponent {
        * а там пусть решает изменился contentState или нет (не путать с editorState, см. onChange).
        */
 
-      // console.log("componentDidUpdate value", value);
-      // console.log("componentDidUpdate prevValue", prevValue);
 
       const {
         editorState,
@@ -340,124 +317,7 @@ export class PrismaEditor extends PureComponent {
 
     });
 
-    // // console.log("Editor onChange prev state", { ...this.state.editorState }, this.state.editorState);
-
-    // // console.log("Editor onChange new state", { ...editorState }, editorState);
-
-    // const currentSelection = editorState.getSelection();
-    // const prevSelection = prevState.getSelection();
-
-    // const currentContent = editorState.getCurrentContent();
-    // const prevContent = prevState.getCurrentContent();
-
-
-    // console.log("currentContent===prevContent", currentContent === prevContent);
-
-    // // console.log("Editor onChange new state prevSelection.getHasFocus()", this.state.editorState.getSelection().getHasFocus());
-
-    // // console.log("Editor onChange new state currentSelection.getHasFocus()", currentSelection.getHasFocus());
-
-
-    // // if (currentSelection.getHasFocus()) {
-    // //   return;
-    // // }
-
-    // const currentSelectionString = currentSelection ? currentSelection.toString() : "";
-    // const prevSelectionString = prevSelection ? prevSelection.toString() : "";
-
-    // console.log("onChange currentSelectionPosition getStartKey", currentSelection.getStartKey());
-    // console.log("onChange currentSelectionPosition getStartOffset", currentSelection.getStartOffset());
-    // console.log("onChange currentSelectionPosition getFocusOffset", currentSelection.getFocusOffset());
-
-    // console.log("onChange currentSelection", currentSelection, currentSelection.serialize());
-    // console.log(currentSelectionString);
-
-    // console.log("onChange prevSelection", prevSelection, prevSelection.serialize());
-    // console.log(prevSelectionString);
-
-
-    // console.log("onChange currentSelection === prevSelection", currentSelectionString === prevSelectionString);
-
-
-    // const focused = currentSelection.getHasFocus();
-    // const prevFocused = prevSelection.getHasFocus();
-
-
-    // console.log("Editor focused", focused, prevFocused);
-
-
-    // this.setState({
-    //   editorState,
-    // }, () => {
-
-
-
-
-
-    //   if (focused && prevFocused) {
-    //     // if (focused) {
-
-    //     const {
-    //       onChange,
-    //     } = this.props;
-
-
-    //     if (onChange) {
-
-
-    //       // return;
-
-    //       const currentContent = editorState.getCurrentContent();
-
-
-    //       const rawContent = convertToRaw(currentContent);
-
-
-
-    //       Object.assign(this.state, {
-    //         rawContent,
-    //       });
-
-    //       onChange && onChange(rawContent, editorState);
-
-
-    //     }
-
-    //   }
-
-
-    // });
-
   };
-
-
-
-  // onChange = (editorState) => {
-
-
-  //   const currentContent = editorState.getCurrentContent();
-
-
-  //   const rawContent = convertToRaw(currentContent);
-
-
-  //   this.setState({
-  //     editorState,
-  //   }, () => {
-
-  //     const {
-  //       onChange,
-  //     } = this.props;
-
-  //     Object.assign(this.state, {
-  //       rawContent,
-  //     });
-
-  //     onChange && onChange(rawContent, editorState);
-
-  //   });
-
-  // };
 
 
   keyBinding(event) {
@@ -622,7 +482,7 @@ export class PrismaEditor extends PureComponent {
       case "underline":
         return this.toggleInlineStyle("UNDERLINE");
 
-      default:;
+      default: ;
 
     }
 

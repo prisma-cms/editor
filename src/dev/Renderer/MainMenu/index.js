@@ -13,9 +13,6 @@ import { Link } from 'react-router-dom';
 import UserItem from './User';
 import { withStyles } from 'material-ui/styles';
 
-// console.log("MainMenu Context", Context);
-
-// import Modal from './AuthModal';
 
 export const styles = theme => {
 
@@ -72,18 +69,6 @@ export class MainMenu extends PureComponent {
 
   }
 
-  // componentWillMount(){
-  //   console.log("menu componentWillMount");
-  // }
-
-  // handleClose = () => {
-
-  //   this.setState({
-  //     opened: false,
-  //   });
-
-  // }
-
 
   render() {
 
@@ -92,9 +77,6 @@ export class MainMenu extends PureComponent {
       Grid,
     } = this.context;
 
-    const {
-      // opened,
-    } = this.state;
 
     const {
       classes,
