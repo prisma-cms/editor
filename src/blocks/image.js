@@ -18,7 +18,7 @@ const defaultProps = {
   open: false,
 };
 
-const styles = (theme) => {
+const styles = () => {
 
   return {
     root: {
@@ -91,7 +91,7 @@ export class ImageBlock extends React.Component {
     return (
       <div className={["editor-image__wrapper", classes.root].join(" ")}>
         <div className="editor-image__anchore_wrapper">
-          {this.state.original_url ? <a href={this.state.original_url} target="_blank" rel="nofollow">
+          {this.state.original_url ? <a href={this.state.original_url} target="_blank" rel="nofollow noreferrer">
             {this.state.original_url}
           </a> : null
           }

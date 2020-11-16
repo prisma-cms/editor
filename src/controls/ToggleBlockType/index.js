@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 
 import React, { Component } from 'react';
@@ -202,7 +203,7 @@ export default class ToggleBlockType extends Component {
 
 
     return <IconButton
-      onClick={() => this.toggleBlockType()}
+      onClick={this.toggleBlockType}
       disabled={this.isDisabled()}
       {...other}
     >

@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import  { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import {
   // RichUtils,
   EditorState,
   ContentState,
-  Modifier,
+  // Modifier,
 } from 'draft-js-android-fix';
 
 
@@ -34,7 +34,7 @@ class PrismaDecorator extends Component {
   };
 
 
-  startEdit = event => {
+  startEdit = () => {
 
     // event.preventDefault();
     // event.stopPropagation();
@@ -60,7 +60,7 @@ class PrismaDecorator extends Component {
     return;
   }
 
-  endEdit = event => {
+  endEdit = () => {
 
     // event.preventDefault();
     // event.stopPropagation();
@@ -87,7 +87,7 @@ class PrismaDecorator extends Component {
   }
 
 
-  showEditor = (event) => {
+  showEditor = () => {
 
     // event.preventDefault();
     // event.stopPropagation();
@@ -120,9 +120,9 @@ class PrismaDecorator extends Component {
     let newContentState = ContentState.createFromBlockArray(blocksArray);
     newContentState = newContentState.mergeEntityData(entityKey, data);
 
-    let editorState = getEditorState();
+    const editorState = getEditorState();
 
-    let newEditorState = EditorState.push(editorState, newContentState, 'change-block-data');
+    const newEditorState = EditorState.push(editorState, newContentState, 'change-block-data');
 
 
 
@@ -164,6 +164,9 @@ class PrismaDecorator extends Component {
     return entityRange;
   }
 
+  /**
+   * Function returns the first selected block.
+   */
   getSelectedBlock(editorState) {
     if (editorState) {
       return this.getSelectedBlocksList(editorState).get(0);
@@ -174,16 +177,6 @@ class PrismaDecorator extends Component {
 
   getSelectedBlocksList(editorState) {
     return this.getSelectedBlocksMap(editorState).toList();
-  }
-
-  /**
-   * Function returns the first selected block.
-   */
-  getSelectedBlock(editorState) {
-    if (editorState) {
-      return this.getSelectedBlocksList(editorState).get(0);
-    }
-    return undefined;
   }
 
 
@@ -201,15 +194,6 @@ class PrismaDecorator extends Component {
   }
 
 
-
-
-  // render() {
-  //   return (
-  //     <div>
-
-  //     </div>
-  //   );
-  // }
 }
 
 export default PrismaDecorator;

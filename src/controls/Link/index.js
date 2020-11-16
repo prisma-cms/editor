@@ -75,7 +75,7 @@ export default class LinkControl extends ToggleBlockType {
 
     // const { currentEntity } = this.state;
 
-    let selection = editorState.getSelection();
+    const selection = editorState.getSelection();
 
     if (currentEntity) {
       // const entityRange = getEntityRange(editorState, currentEntity);
@@ -95,7 +95,7 @@ export default class LinkControl extends ToggleBlockType {
 
 
 
-    let contentState = Modifier.replaceText(
+    const contentState = Modifier.replaceText(
       editorState.getCurrentContent(),
       selection,
       `${linkTitle}`,
@@ -113,7 +113,7 @@ export default class LinkControl extends ToggleBlockType {
      * В версии 0.11-alpha здесь ломается. 
      * https://draftjs.org/docs/v0-10-api-migration.html#content
      */
-    let newEditorState = EditorState.push(editorState, contentState, 'insert-characters');
+    const newEditorState = EditorState.push(editorState, contentState, 'insert-characters');
 
 
 
@@ -142,11 +142,11 @@ export default class LinkControl extends ToggleBlockType {
 
   toggleBlockType = () => {
 
-    const {
-      onChange,
-      editorState,
-      blockType,
-    } = this.props;
+    // const {
+    //   onChange,
+    //   editorState,
+    //   blockType,
+    // } = this.props;
 
     // this.addLink("test link", "https://modxclub.ru")
 
@@ -185,7 +185,7 @@ export default class LinkControl extends ToggleBlockType {
 
     const {
       disabled,
-      editorState,
+      // editorState,
     } = this.props;
 
 
@@ -196,9 +196,9 @@ export default class LinkControl extends ToggleBlockType {
     return disabled || !action;
   }
 
-  componentWillReceiveProps(nextProps, nextState) {
+  // componentWillReceiveProps(nextProps, nextState) {
 
-  }
+  // }
 
   // render() {
 

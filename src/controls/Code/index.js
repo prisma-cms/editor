@@ -82,7 +82,7 @@ class CodeOutputBlock extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
 
     if (nextProps.lang !== this.state.lang) {
       this.setState({
@@ -102,10 +102,10 @@ class CodeOutputBlock extends React.Component {
   render() {
 
 
-    var output;
+    let output;
 
     // var language;
-    var lang = this.state.lang;
+    let lang = this.state.lang;
 
     if (typeof prism.languages[lang] == "undefined") {
       console.error("Unsupported language '" + lang + "'");
@@ -168,7 +168,7 @@ export class TextBlock extends React.Component {
     };
 
     this._onValueChange = evt => {
-      var value = evt.target.value;
+      const value = evt.target.value;
       this.setState({
         textValue: value,
       });
@@ -181,11 +181,11 @@ export class TextBlock extends React.Component {
     * */
     this._save = () => {
 
-      var value = this.state.textValue;
+      const value = this.state.textValue;
 
       if (value !== '') {
-        var entityKey = this.props.block.getEntityAt(0);
-        var newContentState = this.props.contentState.mergeEntityData(entityKey, {
+        const entityKey = this.props.block.getEntityAt(0);
+        const newContentState = this.props.contentState.mergeEntityData(entityKey, {
           content: this.state.textValue,
           lang: this.state.lang,
         });
@@ -216,7 +216,7 @@ export class TextBlock extends React.Component {
 
 
   _getData() {
-    var data = this.props.contentState
+    const data = this.props.contentState
       .getEntity(this.props.block.getEntityAt(0))
       .getData();
 
@@ -224,7 +224,7 @@ export class TextBlock extends React.Component {
   }
 
   _getValue() {
-    var content = this._getData()['content'];
+    const content = this._getData()['content'];
 
     // if(
     //   this.state.editMode &&
@@ -237,7 +237,7 @@ export class TextBlock extends React.Component {
   }
 
   _getLang() {
-    var lang = this._getData()['lang'];
+    const lang = this._getData()['lang'];
 
     // if(
     //   this.state.editMode &&
@@ -253,7 +253,7 @@ export class TextBlock extends React.Component {
   //   this._onChange(RichUtils.onTab(event, this.state.editorState, 6));
   // }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
 
 
 
@@ -266,6 +266,21 @@ export class TextBlock extends React.Component {
     return true;
   }
 
+  onLangClick = (event) => {
+
+    const valueAttribute = event.currentTarget.attributes.getNamedItem('value');
+
+    if (valueAttribute) {
+
+      this.setState({
+        lang: valueAttribute.value,
+      });
+    }
+    else {
+      console.error("Cannot get valueAttribute");
+    }
+
+  }
 
   render() {
 
@@ -277,7 +292,7 @@ export class TextBlock extends React.Component {
       allow_edit,
     } = this.state;
 
-    var texContent = null;
+    let texContent = null;
     if (this.state.editMode) {
       // if (this.state.invalidTeX) {
       //   texContent = '';
@@ -308,7 +323,7 @@ export class TextBlock extends React.Component {
       texContent = this._getValue();
     }
 
-    var className = 'Editor-text';
+    let className = 'Editor-text';
     if (this.state.editMode) {
       className += ' Editor-activeText';
     }
@@ -317,17 +332,17 @@ export class TextBlock extends React.Component {
       className += ' edit';
     }
 
-    var editPanel = null;
+    let editPanel = null;
     // if (this.state.allow_edit && this.state.editMode) {
     if (this.state.editMode) {
-      var buttonClass = 'Editor-saveButton';
+      const buttonClass = 'Editor-saveButton';
       // if (this.state.invalidTeX) {
       //   buttonClass += ' Editor-invalidButton';
       // }
 
       // let height = "40px";
 
-      let langs = [{
+      const langs = [{
         value: "javascript",
         label: "Javascript",
       }, {
@@ -353,10 +368,10 @@ export class TextBlock extends React.Component {
         label: "Smarty",
       }];
 
-      var chips = [];
+      const chips = [];
 
       langs.map((item) => {
-        var className = [classes.chip];
+        const className = [classes.chip];
 
         if (item.value === this.state.lang) {
           className.push("active");
@@ -365,13 +380,10 @@ export class TextBlock extends React.Component {
         chips.push(<Chip
           key={item.value}
           label={item.label}
+          value={item.value}
           className={className.join(" ")}
           labelClassName="label"
-          onClick={() => {
-            this.setState({
-              lang: item.value,
-            });
-          }}
+          onClick={this.onLangClick}
         />);
 
         return null;
@@ -387,7 +399,7 @@ export class TextBlock extends React.Component {
           <textarea
             className="Editor-textValue"
             onChange={this._onValueChange}
-            ref="textarea"
+            // ref="textarea"
             value={this.state.textValue}
           />
           <div className="Editor-buttons">
