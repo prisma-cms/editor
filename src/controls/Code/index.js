@@ -295,6 +295,11 @@ export class TextBlock extends React.Component {
     else {
 
       if (
+        /**
+         * Deprecated.
+         * Раньше использовалось, чтобы вывести только текст, не выводя код.
+         * Но это не юзабельно в чтении.
+         */
         this.props.blockProps.fullView === false
       ) {
         return null;
