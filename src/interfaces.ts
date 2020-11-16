@@ -1,5 +1,5 @@
-import { DraftDecorator, EditorState, RawDraftContentState } from 'draft-js';
-import React from 'react';
+import { DraftDecorator, EditorState, RawDraftContentState } from 'draft-js'
+import React from 'react'
 
 /**
  * Strings not allowed due key generation
@@ -7,7 +7,6 @@ import React from 'react';
 export type PrismaCmsEditorRawContent = RawDraftContentState
 
 export interface PrismaCmsEditorProps {
-
   /**
    * In SSR mode should not be typeof string due error document undefined
    */
@@ -18,10 +17,7 @@ export interface PrismaCmsEditorProps {
    */
   readOnly?: boolean
 
-  onChange?(
-    content: PrismaCmsEditorRawContent,
-    editorState: EditorState
-  ): any
+  onChange?(content: PrismaCmsEditorRawContent, editorState: EditorState): any
 
   // Обязательно надо передавать какой-то статический ключ, например editor
   // иначе будет каждый раз генерироваться новый и реакт будет ругаться,
@@ -35,31 +31,30 @@ export interface PrismaCmsEditorProps {
 
   className?: string
 
-  decorators?: DraftDecorator[];
+  decorators?: DraftDecorator[]
 
-  defaultBlockRenderMap?: boolean;
+  defaultBlockRenderMap?: boolean
 
-  plugins?: any[];
+  plugins?: any[]
 
-  blockRenderMap?: any[];
+  blockRenderMap?: any[]
 
   classes?: Record<string, any>
 
-  show_toolbar?: boolean;
+  show_toolbar?: boolean
 }
 
 export interface PrismaCmsEditorState {
-
-  editorState: EditorState;
+  editorState: EditorState
 
   rawContent: PrismaCmsEditorRawContent
 
-  liveTeXEdits: any;
+  liveTeXEdits: any
 
-  inEditBlocksCount: number;
+  inEditBlocksCount: number
 
   /**
    * If no value and in SSR mode, render after delay
    */
-  allowRender: boolean;
+  allowRender: boolean
 }

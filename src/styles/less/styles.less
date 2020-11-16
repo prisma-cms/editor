@@ -1,29 +1,26 @@
 @import '~prismjs/themes/prism.css';
 
 .Editor-text {
-  background-color: transparent!important;
+  background-color: transparent !important;
   margin: 0;
   // padding: 20px 0;
   transition: background-color 0.2s fade-in-out;
   //user-select: none;
   //user-select: none;
 
-  .text-content{
-
+  .text-content {
     cursor: default;
 
-    .edit&{
+    .edit& {
       cursor: pointer;
     }
 
-    .Editor-activeText&{
-
+    .Editor-activeText& {
       cursor: default;
     }
   }
 
   .Editor-panel {
-
     // .text-content{
     //   cursor: pointer;
     // }
@@ -45,7 +42,7 @@
     .Editor-buttons {
       text-align: center;
     }
-    
+
     .Editor-saveButton,
     .Editor-removeButton {
       background-color: #fff;
@@ -59,55 +56,48 @@
       border-radius: 3px;
       width: 100px;
     }
-    
+
     .Editor-removeButton {
       border-color: #aaa;
       color: #999;
       margin-left: 8px;
     }
-    
+
     .Editor-invalidButton {
       background-color: #eee;
       border-color: #a00;
       color: #666;
     }
-
   }
-} 
+}
 
-.rdw-editor-wrapper{
-
+.rdw-editor-wrapper {
   // margin: 0;
 
-  .public-DraftEditorPlaceholder-root{
+  .public-DraftEditorPlaceholder-root {
     padding: 10px 15px;
   }
 
-  .DraftEditor-editorContainer{
-
-    .public-DraftEditor-content{
-
-      &[contenteditable="true"]{
-
-        > div{
+  .DraftEditor-editorContainer {
+    .public-DraftEditor-content {
+      &[contenteditable='true'] {
+        > div {
           min-height: 100px;
           padding: 10px 15px;
           border: 1px solid #d1d8dc;
           border-radius: 5px;
           transition: all 0.25s;
 
-          &:focus{
+          &:focus {
             border-color: #1aa3ff;
           }
         }
       }
 
-      .public-DraftStyleDefault-block{
+      .public-DraftStyleDefault-block {
         margin: 0.3rem 0;
         font-size: 0.9rem;
       }
     }
   }
 }
-
- 

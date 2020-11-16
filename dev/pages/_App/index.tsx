@@ -23,9 +23,9 @@ const App = ({ Component, pageProps }: AppProps) => {
           typeof global.window === 'undefined' ? new Map() : undefined
         }
       >
-      <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
-      </ThemeProvider>
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
       </MuiThemeProvider>
     </>
   )

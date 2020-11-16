@@ -13,8 +13,8 @@ const ComponentStyled = styled(Component)`
 `
 
 const editorProps: PrismaCmsEditorProps = {
-  editorKey: "test-editor",
-  value: "Test content",
+  editorKey: 'test-editor',
+  value: 'Test content',
 }
 
 describe('Component', () => {
@@ -32,14 +32,14 @@ describe('Component', () => {
      */
     expect(node).toBeUndefined()
   })
-  
+
   it('Render default', () => {
-    render(<Component {...editorProps}/>)
+    render(<Component {...editorProps} />)
     // expect(tree.container).toMatchSnapshot()
   })
 
   it('Render styled', () => {
-    const tree = render(<ComponentStyled {...editorProps}/>)
+    const tree = render(<ComponentStyled {...editorProps} />)
     const node = tree.container.children[0]
     // expect(tree.container).toMatchSnapshot()
     // expect(node).toMatchSnapshot()

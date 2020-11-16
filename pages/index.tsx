@@ -15,7 +15,7 @@ const MainPage: React.FC = (props) => {
       <App
         {...props}
         editorKey="test-editor"
-        value={"Some content"}
+        value={'Some content'}
         readOnly={false}
       />
     </>

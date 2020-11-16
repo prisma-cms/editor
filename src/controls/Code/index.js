@@ -12,41 +12,31 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+import React from 'react'
 
+import Chip from 'material-ui/Chip'
 
-import React from 'react';
+import prism from 'prismjs'
+import 'prismjs/components/prism-markup-templating'
+import 'prismjs/components/prism-php'
+import 'prismjs/components/prism-sql'
+import 'prismjs/components/prism-smarty'
+import 'prismjs/components/prism-jsx'
+import 'prismjs/components/prism-graphql'
+import withStyles from 'material-ui/styles/withStyles'
 
-
-import Chip from 'material-ui/Chip';
-
-import prism from 'prismjs';
-import 'prismjs/components/prism-markup-templating';
-import 'prismjs/components/prism-php';
-import 'prismjs/components/prism-sql';
-import 'prismjs/components/prism-smarty';
-import 'prismjs/components/prism-jsx';
-import 'prismjs/components/prism-graphql';
-import withStyles from 'material-ui/styles/withStyles';
-
-const CodeOutputBlockPropTypes = {
-};
+const CodeOutputBlockPropTypes = {}
 
 const CodeOutputBlockDefaultProps = {
-  lang: "php",
-};
+  lang: 'php',
+}
 
 const styles = (theme) => {
-
   if (!theme) {
-    return {
-
-    }
+    return {}
   }
 
-
-
   return {
-
     chip: {
       margin: theme.spacing.unit,
       height: 25,
@@ -60,171 +50,168 @@ const styles = (theme) => {
         },
       },
     },
-    svgIcon: {
-    },
+    svgIcon: {},
     row: {
       display: 'flex',
       justifyContent: 'center',
       flexWrap: 'wrap',
     },
   }
-};
-
+}
 
 class CodeOutputBlock extends React.Component {
-
-
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
-      lang: props.lang
+      lang: props.lang,
     }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-
     if (nextProps.lang !== this.state.lang) {
       this.setState({
         lang: nextProps.lang,
-      });
+      })
     }
 
-    return true;
+    return true
   }
 
   componentDidMount() {
     if (!this.props.content) {
-      this.props.onClick();
+      this.props.onClick()
     }
   }
 
   render() {
-
-
-    let output;
+    let output
 
     // var language;
-    let lang = this.state.lang;
+    let lang = this.state.lang
 
-    if (typeof prism.languages[lang] == "undefined") {
-      console.error("Unsupported language '" + lang + "'");
-      lang = this.defaultLang;
+    if (typeof prism.languages[lang] == 'undefined') {
+      console.error("Unsupported language '" + lang + "'")
+      lang = this.defaultLang
     }
 
     if (this.props.content) {
-      output = prism.highlight(this.props.content, prism.languages[lang]);
+      output = prism.highlight(this.props.content, prism.languages[lang])
     }
 
-    return <div className="text-content" dangerouslySetInnerHTML={{ __html: output }} onClick={this.props.onClick} />;
+    return (
+      <div
+        className="text-content"
+        dangerouslySetInnerHTML={{ __html: output }}
+        onClick={this.props.onClick}
+      />
+    )
   }
 }
 
-CodeOutputBlock.propTypes = CodeOutputBlockPropTypes;
-CodeOutputBlock.defaultProps = CodeOutputBlockDefaultProps;
+CodeOutputBlock.propTypes = CodeOutputBlockPropTypes
+CodeOutputBlock.defaultProps = CodeOutputBlockDefaultProps
 
-
-const propTypes = {
-};
+const propTypes = {}
 
 const defaultProps = {
-  lang: "php",
+  lang: 'php',
   // fullView: true,
-};
+}
 
 export class TextBlock extends React.Component {
   constructor(props) {
-    super(props);
-
-
+    super(props)
 
     this.state = {
       editMode: false,
       lang: this._getLang() || props.lang,
       allow_edit: props.blockProps.allow_edit,
-    };
-
-
+    }
 
     this._onClick = () => {
-
       // alert(!this.state.allow_edit);
       // alert(this.state.editMode);
 
       if (!this.state.allow_edit) {
-        return;
+        return
       }
 
       if (this.state.editMode) {
-        return;
+        return
       }
 
-      this.setState({
-        editMode: true,
-        textValue: this._getValue(),
-      }, () => {
-        this._startEdit();
-      });
-    };
+      this.setState(
+        {
+          editMode: true,
+          textValue: this._getValue(),
+        },
+        () => {
+          this._startEdit()
+        }
+      )
+    }
 
-    this._onValueChange = evt => {
-      const value = evt.target.value;
+    this._onValueChange = (evt) => {
+      const value = evt.target.value
       this.setState({
         textValue: value,
-      });
-    };
-
+      })
+    }
 
     /*
-    *   Сохранение.
-    *   Если контента нет, то удаляем этот блок
-    * */
+     *   Сохранение.
+     *   Если контента нет, то удаляем этот блок
+     * */
     this._save = () => {
-
-      const value = this.state.textValue;
+      const value = this.state.textValue
 
       if (value !== '') {
-        const entityKey = this.props.block.getEntityAt(0);
-        const newContentState = this.props.contentState.mergeEntityData(entityKey, {
-          content: this.state.textValue,
-          lang: this.state.lang,
-        });
-        this.setState({
-          invalidTeX: false,
-          editMode: false,
-          textValue: null,
-        }, this._finishEdit.bind(this, newContentState));
+        const entityKey = this.props.block.getEntityAt(0)
+        const newContentState = this.props.contentState.mergeEntityData(
+          entityKey,
+          {
+            content: this.state.textValue,
+            lang: this.state.lang,
+          }
+        )
+        this.setState(
+          {
+            invalidTeX: false,
+            editMode: false,
+            textValue: null,
+          },
+          this._finishEdit.bind(this, newContentState)
+        )
+      } else {
+        this._remove()
       }
-      else {
-        this._remove();
-      }
-    };
+    }
 
     this._remove = () => {
-
-
-
-      this.props.blockProps.onRemove(this.props.block.getKey());
-    };
+      this.props.blockProps.onRemove(this.props.block.getKey())
+    }
     this._startEdit = () => {
-      this.props.blockProps.onStartEdit(this.props.block.getKey());
-    };
+      this.props.blockProps.onStartEdit(this.props.block.getKey())
+    }
     this._finishEdit = (newContentState) => {
-      this.props.blockProps.onFinishEdit(this.props.block.getKey(), newContentState);
-    };
+      this.props.blockProps.onFinishEdit(
+        this.props.block.getKey(),
+        newContentState
+      )
+    }
   }
-
 
   _getData() {
     const data = this.props.contentState
       .getEntity(this.props.block.getEntityAt(0))
-      .getData();
+      .getData()
 
-    return data;
+    return data
   }
 
   _getValue() {
-    const content = this._getData()['content'];
+    const content = this._getData()['content']
 
     // if(
     //   this.state.editMode &&
@@ -233,11 +220,11 @@ export class TextBlock extends React.Component {
     //   content = '';
     // }
 
-    return content;
+    return content
   }
 
   _getLang() {
-    const lang = this._getData()['lang'];
+    const lang = this._getData()['lang']
 
     // if(
     //   this.state.editMode &&
@@ -246,7 +233,7 @@ export class TextBlock extends React.Component {
     //   content = '';
     // }
 
-    return lang;
+    return lang
   }
 
   // _onTab(event) {
@@ -254,45 +241,33 @@ export class TextBlock extends React.Component {
   // }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-
-
-
     if (nextProps.blockProps.allow_edit !== this.state.allow_edit) {
       this.setState({
         allow_edit: nextProps.blockProps.allow_edit,
-      });
+      })
     }
 
-    return true;
+    return true
   }
 
   onLangClick = (event) => {
-
-    const valueAttribute = event.currentTarget.attributes.getNamedItem('value');
+    const valueAttribute = event.currentTarget.attributes.getNamedItem('value')
 
     if (valueAttribute) {
-
       this.setState({
         lang: valueAttribute.value,
-      });
+      })
+    } else {
+      console.error('Cannot get valueAttribute')
     }
-    else {
-      console.error("Cannot get valueAttribute");
-    }
-
   }
 
   render() {
+    const { classes } = this.props
 
-    const {
-      classes,
-    } = this.props;
+    const { allow_edit } = this.state
 
-    const {
-      allow_edit,
-    } = this.state;
-
-    let texContent = null;
+    let texContent = null
     if (this.state.editMode) {
       // if (this.state.invalidTeX) {
       //   texContent = '';
@@ -300,15 +275,12 @@ export class TextBlock extends React.Component {
       //   texContent = this.state.textValue;
       // }
 
-      texContent = this.state.textValue;
+      texContent = this.state.textValue
 
       // if(texContent == 'Кликните чтобы начать редактирование'){
       //   texContent = '';
       // }
-
-    }
-    else {
-
+    } else {
       if (
         /**
          * Deprecated.
@@ -317,84 +289,92 @@ export class TextBlock extends React.Component {
          */
         this.props.blockProps.fullView === false
       ) {
-        return null;
+        return null
       }
 
-      texContent = this._getValue();
+      texContent = this._getValue()
     }
 
-    let className = 'Editor-text';
+    let className = 'Editor-text'
     if (this.state.editMode) {
-      className += ' Editor-activeText';
+      className += ' Editor-activeText'
     }
 
     if (allow_edit) {
-      className += ' edit';
+      className += ' edit'
     }
 
-    let editPanel = null;
+    let editPanel = null
     // if (this.state.allow_edit && this.state.editMode) {
     if (this.state.editMode) {
-      const buttonClass = 'Editor-saveButton';
+      const buttonClass = 'Editor-saveButton'
       // if (this.state.invalidTeX) {
       //   buttonClass += ' Editor-invalidButton';
       // }
 
       // let height = "40px";
 
-      const langs = [{
-        value: "javascript",
-        label: "Javascript",
-      }, {
-        value: "jsx",
-        label: "JSX",
-      }, {
-        value: "graphql",
-        label: "Graphql",
-      }, {
-        value: "php",
-        label: "PHP",
-      }, {
-        value: "sql",
-        label: "SQL",
-      }, {
-        value: "css",
-        label: "CSS",
-      }, {
-        value: "html",
-        label: "HTML",
-      }, {
-        value: "smarty",
-        label: "Smarty",
-      }];
+      const langs = [
+        {
+          value: 'javascript',
+          label: 'Javascript',
+        },
+        {
+          value: 'jsx',
+          label: 'JSX',
+        },
+        {
+          value: 'graphql',
+          label: 'Graphql',
+        },
+        {
+          value: 'php',
+          label: 'PHP',
+        },
+        {
+          value: 'sql',
+          label: 'SQL',
+        },
+        {
+          value: 'css',
+          label: 'CSS',
+        },
+        {
+          value: 'html',
+          label: 'HTML',
+        },
+        {
+          value: 'smarty',
+          label: 'Smarty',
+        },
+      ]
 
-      const chips = [];
+      const chips = []
 
       langs.map((item) => {
-        const className = [classes.chip];
+        const className = [classes.chip]
 
         if (item.value === this.state.lang) {
-          className.push("active");
+          className.push('active')
         }
 
-        chips.push(<Chip
-          key={item.value}
-          label={item.label}
-          value={item.value}
-          className={className.join(" ")}
-          labelClassName="label"
-          onClick={this.onLangClick}
-        />);
+        chips.push(
+          <Chip
+            key={item.value}
+            label={item.label}
+            value={item.value}
+            className={className.join(' ')}
+            labelClassName="label"
+            onClick={this.onLangClick}
+          />
+        )
 
-        return null;
-      });
+        return null
+      })
 
-      editPanel =
+      editPanel = (
         <div className="Editor-panel">
-
-          <div className={classes.row}>
-            {chips}
-          </div>
+          <div className={classes.row}>{chips}</div>
 
           <textarea
             className="Editor-textValue"
@@ -414,22 +394,24 @@ export class TextBlock extends React.Component {
               Удалить
             </button>
           </div>
-        </div>;
+        </div>
+      )
     }
 
     return (
       <div className={className}>
-
-        <CodeOutputBlock content={texContent} lang={this.state.lang} onClick={this._onClick} />
+        <CodeOutputBlock
+          content={texContent}
+          lang={this.state.lang}
+          onClick={this._onClick}
+        />
         {editPanel}
       </div>
-    );
+    )
   }
 }
 
-TextBlock.propTypes = propTypes;
-TextBlock.defaultProps = defaultProps;
+TextBlock.propTypes = propTypes
+TextBlock.defaultProps = defaultProps
 
-export default withStyles(styles)(props => <TextBlock
-  {...props}
-/>);
+export default withStyles(styles)((props) => <TextBlock {...props} />)

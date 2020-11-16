@@ -1,22 +1,19 @@
-
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 import {
   // RichUtils,
   EditorState,
   Modifier,
-} from 'draft-js-android-fix';
+} from 'draft-js-android-fix'
 
-import LinkIcon from "material-ui-icons/Link";
+import LinkIcon from 'material-ui-icons/Link'
 
-import ToggleBlockType from "../ToggleBlockType";
+import ToggleBlockType from '../ToggleBlockType'
 
-import decorator from "./decorator";
-export { decorator };
-
+import decorator from './decorator'
+export { decorator }
 
 export default class LinkControl extends ToggleBlockType {
-
   static propTypes = {
     // eslint-disable-next-line react/forbid-foreign-prop-types
     ...ToggleBlockType.propTypes,
@@ -27,12 +24,10 @@ export default class LinkControl extends ToggleBlockType {
     icon: LinkIcon,
   }
 
-
-
   getCurrentEntity() {
-    const { editorState } = this.props;
+    const { editorState } = this.props
 
-    return this.getSelectionEntity(editorState);
+    return this.getSelectionEntity(editorState)
 
     // if (editorState) {
     //   this.setState({
@@ -42,40 +37,27 @@ export default class LinkControl extends ToggleBlockType {
     // modalHandler.registerCallBack(this.expandCollapse);
   }
 
-
   // addLink = (linkTitle, linkUrl, linkUrlOption) => {
   addLink = () => {
+    let linkTitle, linkUrl, linkTarget
 
-    let linkTitle,
-      linkUrl,
-      linkTarget
-      ;
+    const { editorState, onChange } = this.props
 
-    const {
-      editorState,
-      onChange,
-    } = this.props;
+    const currentEntity = this.getCurrentEntity()
 
-    const currentEntity = this.getCurrentEntity();
-
-
-
-    const selectionText = this.getSelectionText(editorState);
+    const selectionText = this.getSelectionText(editorState)
 
     if (!selectionText) {
-      return;
+      return
+    } else {
+      linkTitle = selectionText
     }
-    else {
-      linkTitle = selectionText;
-    }
-
-
 
     // return;
 
     // const { currentEntity } = this.state;
 
-    const selection = editorState.getSelection();
+    const selection = editorState.getSelection()
 
     if (currentEntity) {
       // const entityRange = getEntityRange(editorState, currentEntity);
@@ -90,32 +72,27 @@ export default class LinkControl extends ToggleBlockType {
         url: linkUrl,
         target: linkTarget,
       })
-      .getLastCreatedEntityKey();
-
-
-
+      .getLastCreatedEntityKey()
 
     const contentState = Modifier.replaceText(
       editorState.getCurrentContent(),
       selection,
       `${linkTitle}`,
       editorState.getCurrentInlineStyle(),
-      entityKey,
-    );
-
-
-
-
+      entityKey
+    )
 
     // return;
 
     /**
-     * В версии 0.11-alpha здесь ломается. 
+     * В версии 0.11-alpha здесь ломается.
      * https://draftjs.org/docs/v0-10-api-migration.html#content
      */
-    const newEditorState = EditorState.push(editorState, contentState, 'insert-characters');
-
-
+    const newEditorState = EditorState.push(
+      editorState,
+      contentState,
+      'insert-characters'
+    )
 
     // return;
 
@@ -135,13 +112,13 @@ export default class LinkControl extends ToggleBlockType {
     //   undefined,
     // );
 
-    onChange(EditorState.push(newEditorState, contentState, 'insert-characters'));
+    onChange(
+      EditorState.push(newEditorState, contentState, 'insert-characters')
+    )
     // this.doCollapse();
-  };
-
+  }
 
   toggleBlockType = () => {
-
     // const {
     //   onChange,
     //   editorState,
@@ -159,41 +136,34 @@ export default class LinkControl extends ToggleBlockType {
     //   onChange(newState);
     // }
 
-    const action = this.getCurrentAction();
+    const action = this.getCurrentAction()
 
     if (action) {
-      return action();
+      return action()
     }
-  };
-
-
-  getCurrentAction() {
-
-    let action;
-
-    const isSelected = this.isTextSelected();
-
-    if (isSelected) {
-      action = this.addLink;
-    }
-
-    return action;
   }
 
+  getCurrentAction() {
+    let action
+
+    const isSelected = this.isTextSelected()
+
+    if (isSelected) {
+      action = this.addLink
+    }
+
+    return action
+  }
 
   isDisabled() {
-
     const {
       disabled,
       // editorState,
-    } = this.props;
+    } = this.props
 
+    const action = this.getCurrentAction()
 
-    const action = this.getCurrentAction();
-
-
-
-    return disabled || !action;
+    return disabled || !action
   }
 
   // componentWillReceiveProps(nextProps, nextState) {

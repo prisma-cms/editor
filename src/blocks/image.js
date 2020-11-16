@@ -1,142 +1,124 @@
+'use strict'
 
-'use strict';
+import React from 'react'
 
-import React from 'react';
-
-
-import Dialog, { DialogActions, DialogContent } from 'material-ui/Dialog';
-import Button from 'material-ui/Button';
+import Dialog, { DialogActions, DialogContent } from 'material-ui/Dialog'
+import Button from 'material-ui/Button'
 
 // import './styles/styles.less';
-import withStyles from 'material-ui/styles/withStyles';
+import withStyles from 'material-ui/styles/withStyles'
 
-
-const propTypes = {
-};
+const propTypes = {}
 
 const defaultProps = {
   open: false,
-};
+}
 
 const styles = () => {
-
   return {
-    root: {
-    },
+    root: {},
     dialog: {
       '& .dialog-paper': {
         maxWidth: '90%',
         width: 'auto',
       },
     },
-    dialogContent: {
-    },
+    dialogContent: {},
 
-    thumb: {
-    },
+    thumb: {},
     img: {
-      maxWidth: "100%",
+      maxWidth: '100%',
 
-
-      ".editor-image__wrapper &": {
-
-        "&.thumb": {
+      '.editor-image__wrapper &': {
+        '&.thumb': {
           maxWidth: 400,
           maxHeight: 250,
-          cursor: "pointer",
+          cursor: 'pointer',
         },
       },
 
-      "&.opened": {
-        display: "block",
-        maxWidth: "100%"
+      '&.opened': {
+        display: 'block',
+        maxWidth: '100%',
       },
     },
-  };
-
-};
-
+  }
+}
 
 export class ImageBlock extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
-      original_url: props.block.data.get("original_url"),
-      src: props.block.data.get("url"),
+      original_url: props.block.data.get('original_url'),
+      src: props.block.data.get('url'),
       open: props.open,
-    };
+    }
   }
 
   handleOpen = () => {
-    this.setState({ open: true });
-  };
+    this.setState({ open: true })
+  }
 
   handleClose = () => {
-    this.setState({ open: false });
-  };
-
+    this.setState({ open: false })
+  }
 
   render() {
-
-
     if (!this.state.src) {
-      return null;
+      return null
     }
 
-    const {
-      classes,
-    } = this.props;
+    const { classes } = this.props
 
     return (
-      <div className={["editor-image__wrapper", classes.root].join(" ")}>
+      <div className={['editor-image__wrapper', classes.root].join(' ')}>
         <div className="editor-image__anchore_wrapper">
-          {this.state.original_url ? <a href={this.state.original_url} target="_blank" rel="nofollow noreferrer">
-            {this.state.original_url}
-          </a> : null
-          }
+          {this.state.original_url ? (
+            <a
+              href={this.state.original_url}
+              target="_blank"
+              rel="nofollow noreferrer"
+            >
+              {this.state.original_url}
+            </a>
+          ) : null}
         </div>
         <img
-          className={["thumb", classes.img, classes.thumb].join(" ")}
+          className={['thumb', classes.img, classes.thumb].join(' ')}
           src={this.state.src}
           onClick={this.handleOpen}
         />
 
         <Dialog
-          className={[classes.dialog].join(" ")}
+          className={[classes.dialog].join(' ')}
           onBackdropClick={this.handleClose}
           onClose={this.handleClose}
           onEscapeKeyDown={this.handleClose}
           open={this.state.open}
           PaperProps={{
-            className: "dialog-paper",
+            className: 'dialog-paper',
           }}
         >
-
-          <DialogContent
-            className={[classes.dialogContent].join(" ")}
-          >
+          <DialogContent className={[classes.dialogContent].join(' ')}>
             <img
-              className={["opened", classes.img].join(" ")}
+              className={['opened', classes.img].join(' ')}
               src={this.state.src}
             />
           </DialogContent>
 
           <DialogActions>
-            <Button
-              key="close"
-              onClick={this.handleClose}
-            >Закрыть</Button>
+            <Button key="close" onClick={this.handleClose}>
+              Закрыть
+            </Button>
           </DialogActions>
         </Dialog>
       </div>
-    );
+    )
   }
 }
 
-ImageBlock.propTypes = propTypes;
-ImageBlock.defaultProps = defaultProps;
+ImageBlock.propTypes = propTypes
+ImageBlock.defaultProps = defaultProps
 
-export default withStyles(styles)(props => <ImageBlock
-  {...props}
-/>);
+export default withStyles(styles)((props) => <ImageBlock {...props} />)

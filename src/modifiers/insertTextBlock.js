@@ -1,10 +1,6 @@
+'use strict'
 
-'use strict';
-
-import {
-  AtomicBlockUtils,
-  EditorState,
-} from 'draft-js-android-fix';
+import { AtomicBlockUtils, EditorState } from 'draft-js-android-fix'
 
 // let count = 0;
 // const examples = [
@@ -27,17 +23,16 @@ import {
 // ];
 
 export function insertTextBlock(editorState) {
-  const contentState = editorState.getCurrentContent();
+  const contentState = editorState.getCurrentContent()
   // const nextFormula = count++ % examples.length;
   const contentStateWithEntity = contentState.createEntity(
     'TOKEN',
     'IMMUTABLE',
-    {content: ''},
-  );
-  const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-  const newEditorState = EditorState.set(
-    editorState,
-    {currentContent: contentStateWithEntity}
-  );
-  return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, ' ');
+    { content: '' }
+  )
+  const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
+  const newEditorState = EditorState.set(editorState, {
+    currentContent: contentStateWithEntity,
+  })
+  return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, ' ')
 }
