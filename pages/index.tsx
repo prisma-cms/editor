@@ -1,10 +1,10 @@
 import React from 'react'
 import Head from 'next/head'
-import App, { RawDraftContentState } from 'src'
+import App, { PrismaCmsEditorRawContent } from 'src'
 
 const MainPage: React.FC = (props) => {
 
-  const rawContent: RawDraftContentState = { "blocks": [{ "key": "e6g02", "text": "Test content", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }], "entityMap": {} };
+  const rawContent: PrismaCmsEditorRawContent = { "blocks": [{ "key": "e6g02", "text": "Test content", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }], "entityMap": {} };
 
 
   return (

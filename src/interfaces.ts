@@ -1,8 +1,6 @@
 import { DraftBlockRenderMap, DraftDecorator, EditorState, RawDraftContentState } from 'draft-js'
 import React from 'react'
 
-export * from 'draft-js';
-
 /**
  * Strings not allowed due key generation
  */

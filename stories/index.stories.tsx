@@ -13,7 +13,7 @@ import {
 } from '@storybook/addon-docs/blocks'
 
 import Component from '../src'
-import { PrismaCmsEditorProps as ComponentProps, RawDraftContentState } from '../src/interfaces'
+import { PrismaCmsEditorProps as ComponentProps, PrismaCmsEditorRawContent } from '../src/interfaces'
 
 const title = '@prisma-cms/editor'
 
@@ -60,7 +60,7 @@ export const Editor: React.FC<ContainerProps> = ({
 }
 
 
-const rawContent: RawDraftContentState = { "blocks": [{ "key": "e6g02", "text": "Test content", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }], "entityMap": {} };
+const rawContent: PrismaCmsEditorRawContent = { "blocks": [{ "key": "e6g02", "text": "Test content", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }], "entityMap": {} };
 
 
 const args: Partial<ContainerProps> = {
