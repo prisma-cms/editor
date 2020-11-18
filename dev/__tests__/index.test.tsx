@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import Component, { PrismaCmsEditorProps } from 'src'
+import Component, { PrismaCmsEditorProps, RawDraftContentState } from 'src'
 
 import { render } from 'dev/tests/utils'
 
@@ -12,10 +12,21 @@ const ComponentStyled = styled(Component)`
   border: ${border};
 `
 
+
+const rawContent: RawDraftContentState = { "blocks": [{ "key": "e6g02", "text": "Test content", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }], "entityMap": {} };
+
+
 const editorProps: PrismaCmsEditorProps = {
   editorKey: 'test-editor',
-  value: 'Test content',
+  // value: 'Test content',
+  value: rawContent,
 }
+
+const editorPropsWithContent: PrismaCmsEditorProps = {
+  editorKey: 'test-editor',
+  value: rawContent,
+}
+
 
 describe('Component', () => {
   it('Render Editor with undefined value', () => {
@@ -38,11 +49,17 @@ describe('Component', () => {
     // expect(tree.container).toMatchSnapshot()
   })
 
+  it('Render with object value', () => {
+    const tree = render(<Component {...editorPropsWithContent} />)
+    expect(tree.container).toMatchSnapshot()
+  })
+
   it('Render styled', () => {
-    const tree = render(<ComponentStyled {...editorProps} />)
+    const tree = render(<ComponentStyled {...editorPropsWithContent} />)
     const node = tree.container.children[0]
-    // expect(tree.container).toMatchSnapshot()
+    expect(tree.container).toMatchSnapshot()
     // expect(node).toMatchSnapshot()
     expect(node).toHaveStyleRule('border', border)
   })
+
 })

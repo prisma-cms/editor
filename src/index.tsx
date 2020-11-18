@@ -8,7 +8,7 @@ import {
   RichUtils,
   convertToRaw,
   convertFromRaw,
-  convertFromHTML,
+  // convertFromHTML,
   CompositeDecorator,
   getDefaultKeyBinding,
   DefaultDraftBlockRenderMap,
@@ -16,6 +16,7 @@ import {
   ContentBlock,
   DraftEditorCommand,
   DraftHandleValue,
+  DraftBlockRenderMap,
   // KeyBindingUtil,
 } from 'draft-js-android-fix'
 
@@ -114,7 +115,7 @@ export const styles = {
 export class PrismaEditor<
   P extends PrismaCmsEditorProps = PrismaCmsEditorProps,
   S extends PrismaCmsEditorState = PrismaCmsEditorState
-> extends PureComponent<P, S> {
+  > extends PureComponent<P, S> {
   // static propTypes = {
   //   classes: PropTypes.object.isRequired,
   //   value: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
@@ -149,48 +150,51 @@ export class PrismaEditor<
       ...this.state,
       editorState,
       rawContent,
-      allowRender:
-        global.document !== undefined && value && typeof value === 'object',
+      allowRender: value && typeof value === 'object',
+      blockRenderMap: this.getBlockRenderMap(),
     }
   }
 
   componentDidMount() {
     super.componentDidMount && super.componentDidMount()
 
-    if (!this.state.allowRender) {
+    if (!this.state.allowRender && global.document !== undefined && process.env.NODE_ENV !== "test") {
       this.setState({
         allowRender: true,
       })
     }
   }
 
-  initState(value: PrismaCmsEditorRawContent | string | undefined) {
+  // initState(value: PrismaCmsEditorRawContent | string | undefined) {
+  initState(value: P["value"]) {
     let editorState
     const rawContent = value
 
     const compositeDecorator = this.getCompositeDecorator()
 
-    // console.log('initState value', value);
-
     if (value) {
       if (typeof value === 'object') {
-        const contentState = convertFromRaw(value)
-        editorState = EditorState.createWithContent(
-          contentState,
-          compositeDecorator
-        )
-      } else if (typeof value === 'string' && global.document !== undefined) {
-        const blocks = convertFromHTML(value)
 
-        // const contentState = ContentState.createFromBlockArray(blocks);
-        const contentState = ContentState.createFromBlockArray(
-          blocks.contentBlocks
-        )
+        const rawContentState = value as PrismaCmsEditorRawContent;
+
+        const contentState = convertFromRaw(rawContentState)
         editorState = EditorState.createWithContent(
           contentState,
           compositeDecorator
         )
-      }
+      } 
+      // else if (typeof value === 'string' && global.document !== undefined) {
+      //   const blocks = convertFromHTML(value)
+
+      //   // const contentState = ContentState.createFromBlockArray(blocks);
+      //   const contentState = ContentState.createFromBlockArray(
+      //     blocks.contentBlocks
+      //   )
+      //   editorState = EditorState.createWithContent(
+      //     contentState,
+      //     compositeDecorator
+      //   )
+      // }
     }
 
     if (!editorState) {
@@ -316,7 +320,7 @@ export class PrismaEditor<
   getBlockRenderMap() {
     const { plugins = [], defaultBlockRenderMap } = this.props
 
-    let blockRenderMap = plugins
+    let blockRenderMap: DraftBlockRenderMap = plugins
       .filter((plug) => plug.blockRenderMap !== undefined)
       .reduce((maps, plug) => maps.merge(plug.blockRenderMap), Map({}))
 
@@ -324,8 +328,10 @@ export class PrismaEditor<
       blockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap)
     }
 
-    if (this.props.blockRenderMap) {
-      blockRenderMap = blockRenderMap.merge(this.props.blockRenderMap)
+    const blockRenderMapProps = this.props.blockRenderMap ?? null;
+
+    if (blockRenderMapProps) {
+      blockRenderMap = blockRenderMap.merge(blockRenderMapProps)
     }
 
     return blockRenderMap
@@ -449,26 +455,23 @@ export class PrismaEditor<
 
   render() {
     const {
+      editorKey,
       classes,
       readOnly,
       // decorators,
       // plugins,
       // onChange,
-      value,
-      // blockRenderMap,
-      // defaultBlockRenderMap,
+      // value,
       className,
       show_toolbar,
       // ...other
     } = this.props
 
-    const { editorState, inEditBlocksCount, allowRender } = this.state
+    const { editorState, inEditBlocksCount, allowRender, blockRenderMap } = this.state
 
     // const selectionState = editorState.getSelection();
 
-    // console.log("render value", value, typeof value);
-
-    if (!allowRender || value === undefined) {
+    if (!allowRender) {
       return null
     }
 
@@ -541,7 +544,7 @@ export class PrismaEditor<
                   className={classes?.iconButton}
                   editorState={editorState}
                   onChange={this.onChange}
-                  // disabled={!textSelected}
+                // disabled={!textSelected}
                 />
               </Grid>
 
@@ -558,14 +561,16 @@ export class PrismaEditor<
         ) : null}
 
         <Editor
+          editorKey={editorKey}
           editorState={editorState}
           readOnly={readOnly || inEditBlocksCount > 0}
           onChange={this.onChange}
           handleKeyCommand={this.handleKeyCommand}
           keyBindingFn={this.keyBinding}
-          blockRenderMap={this.getBlockRenderMap()}
+          // blockRenderMap={this.getBlockRenderMap()}
+          blockRenderMap={blockRenderMap}
           blockRendererFn={this.blockRenderer}
-          // {...other}
+        // {...other}
         />
       </div>
     )

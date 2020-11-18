@@ -1,4 +1,4 @@
-import { DraftDecorator, EditorState, RawDraftContentState } from 'draft-js'
+import { DraftBlockRenderMap, DraftDecorator, EditorState, RawDraftContentState } from 'draft-js'
 import React from 'react'
 
 export * from 'draft-js';
@@ -12,7 +12,9 @@ export interface PrismaCmsEditorProps {
   /**
    * In SSR mode should not be typeof string due error document undefined
    */
-  value: PrismaCmsEditorRawContent | string | undefined
+  // value: PrismaCmsEditorRawContent | string | undefined
+  // TODO: add custom scalar to API in front component
+  value: Record<string, any> | Array<any> | null | undefined
 
   /**
    * Prevent edit content. Default true
@@ -39,7 +41,7 @@ export interface PrismaCmsEditorProps {
 
   plugins?: any[]
 
-  blockRenderMap?: any[]
+  blockRenderMap?: DraftBlockRenderMap
 
   classes?: Record<string, any>
 
@@ -59,4 +61,6 @@ export interface PrismaCmsEditorState {
    * If no value and in SSR mode, render after delay
    */
   allowRender: boolean
+
+  blockRenderMap: DraftBlockRenderMap;
 }

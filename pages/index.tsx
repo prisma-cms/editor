@@ -1,8 +1,12 @@
 import React from 'react'
 import Head from 'next/head'
-import App from 'src'
+import App, { RawDraftContentState } from 'src'
 
 const MainPage: React.FC = (props) => {
+
+  const rawContent: RawDraftContentState = { "blocks": [{ "key": "e6g02", "text": "Test content", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }], "entityMap": {} };
+
+
   return (
     <>
       <Head>
@@ -15,7 +19,7 @@ const MainPage: React.FC = (props) => {
       <App
         {...props}
         editorKey="test-editor"
-        value={'Some content'}
+        value={rawContent}
         readOnly={false}
       />
     </>
