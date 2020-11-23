@@ -313,9 +313,9 @@ export class PrismaEditor<
     )
   }
 
-  keyBinding(event: React.KeyboardEvent) {
-    return getDefaultKeyBinding(event)
-  }
+  // keyBinding(event: React.KeyboardEvent<{}>): DraftEditorCommand | null {
+  //   return getDefaultKeyBinding(event)
+  // }
 
   getBlockRenderMap() {
     const { plugins = [], defaultBlockRenderMap } = this.props
@@ -566,7 +566,8 @@ export class PrismaEditor<
           readOnly={readOnly || inEditBlocksCount > 0}
           onChange={this.onChange}
           handleKeyCommand={this.handleKeyCommand}
-          keyBindingFn={this.keyBinding}
+          // keyBindingFn={this.keyBinding}
+          keyBindingFn={getDefaultKeyBinding}
           // blockRenderMap={this.getBlockRenderMap()}
           blockRenderMap={blockRenderMap}
           blockRendererFn={this.blockRenderer}
