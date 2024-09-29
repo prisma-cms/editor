@@ -26,6 +26,8 @@ addDecorator(
     name: 'withSomething',
     parameterName: 'something',
     wrapper: (storyFn, context) => {
+      // TODO Fix types
+      // @ts-expect-error
       return <ThemeProvider theme={theme}>{storyFn(context)}</ThemeProvider>
     },
   })

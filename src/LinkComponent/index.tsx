@@ -7,8 +7,8 @@ const LinkComponent: React.FC<
   const { href, to, children, ...other } = props
 
   return (
-    <Link href={href || to || ''}>
-      <a {...other}>{children}</a>
+    <Link href={href || to || ''} {...other}>
+      {children}
     </Link>
   )
 }

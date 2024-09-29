@@ -13,7 +13,10 @@ import {
 } from '@storybook/addon-docs/blocks'
 
 import Component from '../src'
-import { PrismaCmsEditorProps as ComponentProps, PrismaCmsEditorRawContent } from '../src/interfaces'
+import {
+  PrismaCmsEditorProps as ComponentProps,
+  PrismaCmsEditorRawContent,
+} from '../src/interfaces'
 
 const title = '@prisma-cms/editor'
 
@@ -34,7 +37,7 @@ export const Editor: React.FC<ContainerProps> = ({
   const [value, setValue] = useState(valueProp)
 
   const onChangeCallback = useCallback(
-    (content, state) => {
+    (content: any, state: any) => {
       setValue(content)
 
       onChange && onChange(content, state)
@@ -59,10 +62,23 @@ export const Editor: React.FC<ContainerProps> = ({
   )
 }
 
+const rawContent: PrismaCmsEditorRawContent = {
+  blocks: [
+    {
+      key: 'e6g02',
+      text: 'Test content',
+      type: 'unstyled',
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {},
+    },
+  ],
+  entityMap: {},
+}
 
-const rawContent: PrismaCmsEditorRawContent = { "blocks": [{ "key": "e6g02", "text": "Test content", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }], "entityMap": {} };
-
-
+// TODO Fix types
+// @ts-expect-error
 const args: Partial<ContainerProps> = {
   ...Component.defaultProps,
   readOnly: false,

@@ -24,7 +24,7 @@ export * from '@testing-library/react'
  * Collect tags from next/head
  * https://github.com/vercel/next.js/discussions/11060
  */
-const HeadProvider: React.FC = ({ children }) => {
+const HeadProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   let head: JSX.Element[]
 
   useEffect(() => {

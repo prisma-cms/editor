@@ -115,7 +115,7 @@ export const styles = {
 export class PrismaEditor<
   P extends PrismaCmsEditorProps = PrismaCmsEditorProps,
   S extends PrismaCmsEditorState = PrismaCmsEditorState
-  > extends PureComponent<P, S> {
+> extends PureComponent<P, S> {
   // static propTypes = {
   //   classes: PropTypes.object.isRequired,
   //   value: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
@@ -158,7 +158,11 @@ export class PrismaEditor<
   componentDidMount() {
     super.componentDidMount && super.componentDidMount()
 
-    if (!this.state.allowRender && global.document !== undefined && process.env.NODE_ENV !== "test") {
+    if (
+      !this.state.allowRender &&
+      global.document !== undefined &&
+      process.env.NODE_ENV !== 'test'
+    ) {
       this.setState({
         allowRender: true,
       })
@@ -166,7 +170,7 @@ export class PrismaEditor<
   }
 
   // initState(value: PrismaCmsEditorRawContent | string | undefined) {
-  initState(value: P["value"]) {
+  initState(value: P['value']) {
     let editorState
     const rawContent = value
 
@@ -174,15 +178,14 @@ export class PrismaEditor<
 
     if (value) {
       if (typeof value === 'object') {
-
-        const rawContentState = value as PrismaCmsEditorRawContent;
+        const rawContentState = value as PrismaCmsEditorRawContent
 
         const contentState = convertFromRaw(rawContentState)
         editorState = EditorState.createWithContent(
           contentState,
           compositeDecorator
         )
-      } 
+      }
       // else if (typeof value === 'string' && global.document !== undefined) {
       //   const blocks = convertFromHTML(value)
 
@@ -328,7 +331,7 @@ export class PrismaEditor<
       blockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap)
     }
 
-    const blockRenderMapProps = this.props.blockRenderMap ?? null;
+    const blockRenderMapProps = this.props.blockRenderMap ?? null
 
     if (blockRenderMapProps) {
       blockRenderMap = blockRenderMap.merge(blockRenderMapProps)
@@ -467,7 +470,8 @@ export class PrismaEditor<
       // ...other
     } = this.props
 
-    const { editorState, inEditBlocksCount, allowRender, blockRenderMap } = this.state
+    const { editorState, inEditBlocksCount, allowRender, blockRenderMap } =
+      this.state
 
     // const selectionState = editorState.getSelection();
 
@@ -544,7 +548,7 @@ export class PrismaEditor<
                   className={classes?.iconButton}
                   editorState={editorState}
                   onChange={this.onChange}
-                // disabled={!textSelected}
+                  // disabled={!textSelected}
                 />
               </Grid>
 
@@ -571,13 +575,14 @@ export class PrismaEditor<
           // blockRenderMap={this.getBlockRenderMap()}
           blockRenderMap={blockRenderMap}
           blockRendererFn={this.blockRenderer}
-        // {...other}
+          // {...other}
         />
       </div>
     )
   }
 }
 
+// @ts-expect-error types
 export default withStyles(styles)((props: PrismaCmsEditorProps) => (
   <PrismaEditor {...props} />
-))
+)) as typeof PrismaEditor

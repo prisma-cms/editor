@@ -9,7 +9,7 @@
     "baseUrl": ".",
     "target": "ES6",
     "module": "CommonJS",
-    "jsx": "preserve",
+    "jsx": "react",
     "lib": ["dom", "es2017", "es7", "es6"],
     "moduleResolution": "node",
     "strict": true,

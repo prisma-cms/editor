@@ -22,7 +22,7 @@ const DivStyled = styled.div`
   border: ${border};
 `
 
-const Component: React.FC = (props) => {
+const Component: React.FC<React.PropsWithChildren> = (props) => {
   const { children } = props
 
   return <DivStyled>Text {children}</DivStyled>
