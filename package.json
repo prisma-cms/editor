@@ -44,7 +44,7 @@
     "urijs": "^1.19.2"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^9.5.5",
+    "@next/bundle-analyzer": "^14.2.14",
     "@storybook/addon-actions": "^6.0.28",
     "@storybook/addon-docs": "^6.0.28",
     "@storybook/addon-links": "^6.0.28",
